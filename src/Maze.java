@@ -42,7 +42,7 @@ public class Maze {
                 }
             }
         }
-        System.out.println("mi a tököm");
+        //exception
     }
 
     public void removeThing(Thing t){

@@ -10,7 +10,7 @@ public class Snake {
 
     public Snake(int size, Maze m){
         maze=m;
-        snakeQueue= new LinkedList<SnakePart>();
+        snakeQueue= new LinkedList<>();
         length=size;
         for(int i=0; i<size;i++) {
             snakeQueue.add(new SnakePart(this));
@@ -40,7 +40,7 @@ public class Snake {
         if(nextField.equals(snakeQueue.get(2).getPosition())){
             nextField=snakeQueue.get(1).getPosition().getNeighbours().get(previousDir);
         } else previousDir=d;
-        
+
         if(nextField.getOnFiled()!=null){
             nextField.getOnFiled().HitBy(this);
             return;
