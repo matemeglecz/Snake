@@ -3,7 +3,7 @@ import java.awt.*;
 
 public class Bomb extends Thing {
     private Field position;
-    private JPanel thingPanel;
+    private final JPanel thingPanel;
 
     public Bomb(){
         thingPanel=new JPanel();

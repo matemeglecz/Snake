@@ -59,7 +59,11 @@ public class GameFrame extends JFrame{
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
             double width = screenSize.getWidth();
             double height = screenSize.getHeight();
+
+            //nem csinálnak semmit, nem tudom miért
             setPreferredSize(new Dimension((int)width/3, (int)height/2));
+            setMinimumSize(new Dimension((int)width/3, (int)height/2));
+            setMaximumSize(new Dimension((int)width/3, (int)height/2));
 
 
             setLayout(new GridBagLayout());
@@ -81,27 +85,32 @@ public class GameFrame extends JFrame{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            playersMove();
-            mainPanel.removeAll();
-            //Refresh the panel
-            GridBagConstraints gbc = new GridBagConstraints();
+            game.playersMove();
+            game.refreshApples();
+            refreshMainPanel();
+        }
+    }
+
+    private void refreshMainPanel(){
+        mainPanel.removeAll();
+        //Refresh the panel
+        GridBagConstraints gbc = new GridBagConstraints();
             /*gbc.fill=GridBagConstraints.BOTH;
             gbc.anchor=GridBagConstraints.CENTER;*/
-            for(int h=0; h<game.getMaze().getHeight(); h++){
-                for(int w=0; w<game.getMaze().getWidth(); w++) {
-                    gbc.gridx=w;
-                    gbc.gridy=h;
-                    mainPanel.add(game.getMaze().getFields()[w][h].getPanel(), gbc);
-                }
+        for(int h=0; h<game.getMaze().getHeight(); h++){
+            for(int w=0; w<game.getMaze().getWidth(); w++) {
+                gbc.gridx=w;
+                gbc.gridy=h;
+                mainPanel.add(game.getMaze().getFields()[w][h].getPanel(), gbc);
             }
-            for(Player p: game.getPlayers()) {
-                if (p.isLost()) {
-                    timer.stop();
-                }
-            }
-
-            mainPanel.revalidate();
         }
+        for(Player p: game.getPlayers()) {
+            if (p.isLost()) {
+                timer.stop();
+            }
+        }
+
+        mainPanel.revalidate();
     }
 
     private class MoveKeyListener implements KeyListener {
@@ -123,12 +132,7 @@ public class GameFrame extends JFrame{
         }
     }
 
-    private void playersMove(){
-        for(Player p: game.getPlayers()){
-            p.moveSnake();
-            if(p.isLost()) return;
-        }
-    }
+
 
 
 

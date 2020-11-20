@@ -37,8 +37,8 @@ public class Snake {
         }
 
         //magába nem tud menni
-        if(nextField.equals(snakeQueue.get(2).getPosition())){
-            nextField=snakeQueue.get(1).getPosition().getNeighbours().get(previousDir);
+        if(nextField.equals(snakeQueue.get(1).getPosition())){
+            nextField=snakeQueue.get(0).getPosition().getNeighbours().get(previousDir);
         } else previousDir=d;
 
         if(nextField.getOnFiled()!=null){
@@ -53,9 +53,6 @@ public class Snake {
         System.out.println(snakeQueue.get(1));
         System.out.println(snakeQueue.get(1).getPosition());
 */
-
-
-
         maze.addThing(snakeQueue.get(0), nextField);
         nextField.setThing(snakeQueue.get(0));
 

@@ -2,13 +2,15 @@ import java.util.ArrayList;
 
 public class Game {
     private ArrayList<Player> players=new ArrayList<>();
-    Maze maze;
+    private Apple[] apples;
+    private final Maze maze;
 
-    public Game(GameModes mode, int x, int y){
+    public Game(GameModes mode, int x, int y, int appleNum, int bombNum){
         maze=new Maze(x, y);
         if(mode==GameModes.SINGLEPLAYER){
-            placeApples(15);
-            placeBombs(15);
+            apples=new Apple[appleNum];
+            placeApples(appleNum);
+            placeBombs(bombNum);
             //maze.addThing(new Apple(), 1, 1);
             Snake snake=new Snake(10, maze);
             maze.addSnake(snake, 5, 5);
@@ -27,33 +29,44 @@ public class Game {
     }
 
     private void placeBombs(int num){
-        boolean failed;
-        int x=0;
-        int y=0;
         for(int i=0; i< num; i++){
-            failed=true;
-            while(failed){
-                x=getRandomInteger(0, maze.getWidth()-1);
-                y=getRandomInteger(0, maze.getHeight()-1);
-                if(maze.getFields()[x][y].getOnFiled()==null) failed=false;
-            }
-            maze.addThing(new Bomb(), x, y);
+            placeOneThing(new Bomb());
         }
     }
 
     private void placeApples(int num){
-        boolean failed;
+        for(int i=0; i< num; i++){
+            apples[i]=(Apple) placeOneThing(new Apple());
+        }
+    }
+
+    public void refreshApples(){
+        for (Apple apple : apples) {
+            if (apple.isEaten()) {
+                apple.recycleApple();
+                placeOneThing(apple);
+            }
+        }
+    }
+
+    public void playersMove(){
+        for(Player p: players){
+            p.moveSnake();
+            if(p.isLost()) return;
+        }
+    }
+
+    private Thing placeOneThing(Thing t){
         int x=0;
         int y=0;
-        for(int i=0; i< num; i++){
-            failed=true;
-            while(failed){
-                x=getRandomInteger(0, maze.getWidth()-1);
-                y=getRandomInteger(0, maze.getHeight()-1);
-                if(maze.getFields()[x][y].getOnFiled()==null) failed=false;
-            }
-            maze.addThing(new Apple(), x, y);
+        boolean failed=true;
+        while(failed){
+            x=getRandomInteger(0, maze.getWidth()-1);
+            y=getRandomInteger(0, maze.getHeight()-1);
+            if(maze.getFields()[x][y].getOnFiled()==null) failed=false;
         }
+        maze.addThing(t, x, y);
+        return t;
     }
 
     private int getRandomInteger(double min, double max){
