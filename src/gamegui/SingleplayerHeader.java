@@ -52,6 +52,13 @@ public class SingleplayerHeader extends Header {
         add(leftPanel);
         add(centerPanel);
         add(rightPanel);
+        //leftPanel.setOpaque(true);
+        leftPanel.setBackground(new Color(43, 43, 43));
+        centerPanel.setBackground(new Color(43, 43, 43));
+        rightPanel.setBackground(new Color(43, 43, 43));
+        timeLabel.setForeground(Color.WHITE);
+        displayedText.setForeground(Color.WHITE);
+        pointsLabel.setForeground(Color.WHITE);
 
     }
 

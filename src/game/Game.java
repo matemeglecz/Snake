@@ -7,9 +7,11 @@ public class Game {
     private ArrayList<Player> players=new ArrayList<>();
     private Apple[] apples;
     private final Maze maze;
+    private final GameModes gameMode;
 
     public Game(GameModes mode, int x, int y, int appleNum, int bombNum){
         maze=new Maze(x, y);
+        gameMode=mode;
         if(mode== GameModes.SINGLEPLAYER){
             apples=new Apple[appleNum];
             placeApples(appleNum);
@@ -27,6 +29,10 @@ public class Game {
 
     public ArrayList<Player> getPlayers(){
         return players;
+    }
+
+    public GameModes getGameMode(){
+        return gameMode;
     }
 
     private void placeBombs(int num){

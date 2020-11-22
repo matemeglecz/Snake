@@ -26,12 +26,15 @@ public class GameFrame extends JFrame{
 
         mainPanel= new GameBoardPanel();
         JPanel mainPConstrain = new JPanel(new GridBagLayout()); //hogy resizolható legyen
+        mainPConstrain.setBackground(new Color(43, 43, 43));
         mainPConstrain.add(mainPanel);
-        super.add(mainPConstrain, BorderLayout.CENTER);
+        this.add(mainPConstrain, BorderLayout.CENTER);
 
         //Header
-        header=new SingleplayerHeader(game);
-        super.add(header, BorderLayout.NORTH);
+        //if(game.getGameMode().equals(GameModes.SINGLPLAYER)) {
+            header = new SingleplayerHeader(game);
+            this.add(header, BorderLayout.NORTH);
+        //} else
 
 
         gameTimer = new Timer(interval, new GameTimerListener());
@@ -41,9 +44,17 @@ public class GameFrame extends JFrame{
 
         StartKeyListener start=new StartKeyListener();
         addKeyListener(start);
-        super.pack();
 
-        super.setVisible(true);
+        /*JPanel westPanel=new JPanel();
+        add(westPanel, BorderLayout.WEST);
+        westPanel.setBackground(new Color(43, 43, 43));
+
+        JPanel eastPanel=new JPanel();
+        add(eastPanel, BorderLayout.WEST);
+        eastPanel.setBackground(new Color(43, 43, 43));*/
+
+        this.pack();
+        this.setVisible(true);
 
 
     }
@@ -52,6 +63,7 @@ public class GameFrame extends JFrame{
 
         public GameBoardPanel() {
             setLayout(new GridBagLayout());
+            setBackground(new Color(43, 43, 43));
             GridBagConstraints gbc = new GridBagConstraints();
             for (int row = 0; row < game.getMaze().getHeight(); row++) {
                 for (int col = 0; col < game.getMaze().getWidth(); col++) {
