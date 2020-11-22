@@ -1,3 +1,6 @@
+package game;
+
+import gamegui.*;
 import java.util.ArrayList;
 
 public class Game {
@@ -7,14 +10,12 @@ public class Game {
 
     public Game(GameModes mode, int x, int y, int appleNum, int bombNum){
         maze=new Maze(x, y);
-        if(mode==GameModes.SINGLEPLAYER){
+        if(mode== GameModes.SINGLEPLAYER){
             apples=new Apple[appleNum];
             placeApples(appleNum);
             placeBombs(bombNum);
-            //maze.addThing(new Apple(), 1, 1);
             Snake snake=new Snake(10, maze);
             maze.addSnake(snake, 5, 5);
-            //maze.addThing(new Bomb(), 3, 3);
             players.add(new Player(snake, 'w', 's', 'd', 'a'));
             GameFrame f=new GameFrame(this, 500);
         }

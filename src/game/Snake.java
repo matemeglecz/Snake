@@ -1,5 +1,5 @@
+package game;
 import java.util.LinkedList;
-import java.util.Queue;
 
 public class Snake {
     private LinkedList<SnakePart> snakeQueue;
@@ -22,7 +22,7 @@ public class Snake {
     }
 
     public int getLength(){
-        return length;
+        return snakeQueue.size();
     }
 
     public LinkedList<SnakePart> getSnakeQueue(){

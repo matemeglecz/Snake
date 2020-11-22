@@ -1,56 +1,48 @@
+package gamegui;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import game.*;
+
+import static java.awt.event.KeyEvent.VK_ENTER;
 
 public class GameFrame extends JFrame{
 
     private final Game game;
-    private final int INTERVAL;
-    private final Timer timer;
+    private final Timer gameTimer;
+    private final Header header;
     private final JPanel mainPanel;
 
 
-    public GameFrame(Game g, int i){
+    public GameFrame(Game g, int interval){
         super("Snake");
         setLayout(new BorderLayout());
-        INTERVAL=i;
         game=g;
 
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        double width = screenSize.getWidth();
-        double height = screenSize.getHeight();
-
-        //setPreferredSize(new Dimension((int)width/3, (int)height/2));
-
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        //setSize(800, 800);
-        /*mainPanel=new JPanel();
-        mainPanel.setLayout(new GridLayout(30, 30));*/
 
         mainPanel= new GameBoardPanel();
-        //mainPanel.setPreferredSize(new Dimension((int)width/3, (int)height/3));
-
-        /*for(int h=0; h<g.getMaze().getHeight(); h++){
-            for(int w=0; w<g.getMaze().getWidth(); w++) {
-                mainPanel.add(game.getMaze().getFields()[w][h].getPanel(), h*game.getMaze().getWidth()+w);
-            }
-        }*/
-        JPanel mainPConstrain = new JPanel(new GridBagLayout());
+        JPanel mainPConstrain = new JPanel(new GridBagLayout()); //hogy resizolható legyen
         mainPConstrain.add(mainPanel);
-
-
         super.add(mainPConstrain, BorderLayout.CENTER);
 
-        timer = new Timer(INTERVAL, new TimerListener());
+        //Header
+        header=new SingleplayerHeader(game);
+        super.add(header, BorderLayout.NORTH);
+
+
+        gameTimer = new Timer(interval, new GameTimerListener());
         KeyListener listener = new MoveKeyListener();
         addKeyListener(listener);
         setFocusable(true);
 
+        StartKeyListener start=new StartKeyListener();
+        addKeyListener(start);
         super.pack();
-        timer.start();
+
         super.setVisible(true);
 
 
@@ -92,11 +84,17 @@ public class GameFrame extends JFrame{
 
     }
 
-    private class TimerListener implements ActionListener{
+    private class GameTimerListener implements ActionListener{
 
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            for(Player p: game.getPlayers()) {
+                if (p.isLost()) {
+                    gameTimer.stop();
+                    return;
+                }
+            }
             game.playersMove();
             game.refreshApples();
             refreshMainPanel();
@@ -116,11 +114,6 @@ public class GameFrame extends JFrame{
                 gbc.weighty=1;
                 gbc.fill = GridBagConstraints.BOTH;
                 mainPanel.add(game.getMaze().getFields()[w][h].getPanel(), gbc);
-            }
-        }
-        for(Player p: game.getPlayers()) {
-            if (p.isLost()) {
-                timer.stop();
             }
         }
 
@@ -143,6 +136,28 @@ public class GameFrame extends JFrame{
         @Override
         public void keyReleased(KeyEvent e) {
             System.out.println("keyReleased="+KeyEvent.getKeyText(e.getKeyCode()));
+        }
+    }
+
+    private class StartKeyListener implements  KeyListener{
+
+        @Override
+        public void keyTyped(KeyEvent e) {
+
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            if(e.getKeyCode()==VK_ENTER) {
+                gameTimer.start();
+                header.headerTimerStart();
+            }
+
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+
         }
     }
 

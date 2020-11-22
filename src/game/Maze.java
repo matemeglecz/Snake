@@ -1,3 +1,5 @@
+package game;
+
 public class Maze {
     private Field[][] fields;
     private int width;
