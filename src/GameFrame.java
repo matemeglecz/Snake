@@ -23,7 +23,7 @@ public class GameFrame extends JFrame{
         double width = screenSize.getWidth();
         double height = screenSize.getHeight();
 
-        setPreferredSize(new Dimension((int)width/3, (int)height/2));
+        //setPreferredSize(new Dimension((int)width/3, (int)height/2));
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         //setSize(800, 800);
@@ -31,15 +31,18 @@ public class GameFrame extends JFrame{
         mainPanel.setLayout(new GridLayout(30, 30));*/
 
         mainPanel= new GameBoardPanel();
-        mainPanel.setPreferredSize(new Dimension((int)width/3, (int)height/3));
+        //mainPanel.setPreferredSize(new Dimension((int)width/3, (int)height/3));
 
         /*for(int h=0; h<g.getMaze().getHeight(); h++){
             for(int w=0; w<g.getMaze().getWidth(); w++) {
                 mainPanel.add(game.getMaze().getFields()[w][h].getPanel(), h*game.getMaze().getWidth()+w);
             }
         }*/
+        JPanel mainPConstrain = new JPanel(new GridBagLayout());
+        mainPConstrain.add(mainPanel);
 
-        super.add(mainPanel, BorderLayout.CENTER);
+
+        super.add(mainPConstrain, BorderLayout.CENTER);
 
         timer = new Timer(INTERVAL, new TimerListener());
         KeyListener listener = new MoveKeyListener();
@@ -56,26 +59,35 @@ public class GameFrame extends JFrame{
     private class GameBoardPanel extends JPanel {
 
         public GameBoardPanel() {
-            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            double width = screenSize.getWidth();
-            double height = screenSize.getHeight();
-
-            //nem csinálnak semmit, nem tudom miért
-            setPreferredSize(new Dimension((int)width/3, (int)height/2));
-            setMinimumSize(new Dimension((int)width/3, (int)height/2));
-            setMaximumSize(new Dimension((int)width/3, (int)height/2));
-
-
             setLayout(new GridBagLayout());
             GridBagConstraints gbc = new GridBagConstraints();
             for (int row = 0; row < game.getMaze().getHeight(); row++) {
                 for (int col = 0; col < game.getMaze().getWidth(); col++) {
                     gbc.gridx = col;
                     gbc.gridy = row;
+                    gbc.weightx=1;
+                    gbc.weighty=1;
                     gbc.fill = GridBagConstraints.BOTH;
                     add(game.getMaze().getFields()[col][row].getPanel(), gbc);
                 }
             }
+        }
+
+        @Override
+        public final Dimension getPreferredSize() {
+            Dimension d = super.getPreferredSize();
+            Dimension prefSize;
+            Component c = getParent();
+            if (c.getWidth()>d.getWidth() && c.getHeight()>d.getHeight()) {
+                prefSize = c.getSize();
+            } else {
+                prefSize = d;
+            }
+            int w = (int) prefSize.getWidth();
+            int h = (int) prefSize.getHeight();
+            // the smaller of the two sizes
+            int s = (Math.min(w, h));
+            return new Dimension(s,s);
         }
 
     }
@@ -95,12 +107,14 @@ public class GameFrame extends JFrame{
         mainPanel.removeAll();
         //Refresh the panel
         GridBagConstraints gbc = new GridBagConstraints();
-            /*gbc.fill=GridBagConstraints.BOTH;
-            gbc.anchor=GridBagConstraints.CENTER;*/
+        //gbc.insets=new Insets(1,1,1,1);
         for(int h=0; h<game.getMaze().getHeight(); h++){
             for(int w=0; w<game.getMaze().getWidth(); w++) {
                 gbc.gridx=w;
                 gbc.gridy=h;
+                gbc.weightx=1;
+                gbc.weighty=1;
+                gbc.fill = GridBagConstraints.BOTH;
                 mainPanel.add(game.getMaze().getFields()[w][h].getPanel(), gbc);
             }
         }
