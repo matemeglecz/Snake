@@ -16,7 +16,7 @@ public abstract class Header extends JPanel {
     protected final JLabel displayedText= new JLabel("Press Enter to start");
     protected Timer headerTimer;
 
-    protected static final int refreshRate = 100;
+    protected static final int refreshRate = GameFrame.game.getRefreshRate();
 
     public Header(){
         time=GameFrame.game.getTimeLimit();

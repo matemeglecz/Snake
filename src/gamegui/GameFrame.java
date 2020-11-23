@@ -15,9 +15,11 @@ public class GameFrame extends JFrame{
     private final Timer gameTimer;
     private final Header header;
     private final JPanel mainPanel;
+    private SidePanel leftPanel=null;
+    private SidePanel rightPanel=null;
 
 
-    public GameFrame(Game g, int interval){
+    public GameFrame(Game g){
         super("Snake");
         setLayout(new BorderLayout());
         game=g;
@@ -35,12 +37,16 @@ public class GameFrame extends JFrame{
             header = new SingleplayerHeader();
         } else {
             header= new MultiplayerHeader();
+            leftPanel= new SidePanel(game.getPlayers().get(0));
+            rightPanel= new SidePanel(game.getPlayers().get(1));
         }
 
         this.add(header, BorderLayout.NORTH);
+        this.add(leftPanel, BorderLayout.WEST);
+        this.add(rightPanel, BorderLayout.EAST);
 
 
-        gameTimer = new Timer(interval, new GameTimerListener());
+        gameTimer = new Timer(game.getRefreshRate(), new GameTimerListener());
         KeyListener listener = new MoveKeyListener();
         addKeyListener(listener);
         setFocusable(true);
@@ -107,7 +113,16 @@ public class GameFrame extends JFrame{
             game.playersMove();
             game.refreshApples();
             refreshMainPanel();
-            if(header.getTime()<=0) gameTimer.stop();
+            if(header.getTime()<=0) {
+                gameTimer.stop();
+                if(game.getPlayers().get(0).getPoints()<game.getPlayers().get(1).getPoints()){
+                    game.getPlayers().get(0).lose();
+                }else if(game.getPlayers().get(0).getPoints()==game.getPlayers().get(1).getPoints()){
+                    for(Player p: GameFrame.game.getPlayers()){
+                        p.lose();
+                    }
+                } else game.getPlayers().get(1).lose();
+            }
             for(Player p: game.getPlayers()) {
                 if (p.isLost()) {
                     gameTimer.stop();
@@ -167,6 +182,8 @@ public class GameFrame extends JFrame{
             if(e.getKeyCode()==VK_ENTER) {
                 gameTimer.start();
                 header.headerTimerStart();
+                rightPanel.sidePanelTimerStart();
+                leftPanel.sidePanelTimerStart();
             }
 
         }

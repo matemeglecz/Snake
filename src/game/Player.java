@@ -1,4 +1,7 @@
 package game;
+
+import java.awt.*;
+
 public class Player {
     private final Snake snake;
     private final int upKey;
@@ -46,8 +49,16 @@ public class Player {
         return lost;
     }
 
+    public void lose(){
+        lost=true;
+    }
+
     public int getPoints(){
         return points;
+    }
+
+    public Color getColor(){
+        return snake.getColor();
     }
 
 
