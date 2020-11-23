@@ -11,7 +11,7 @@ import static java.awt.event.KeyEvent.VK_ENTER;
 
 public class GameFrame extends JFrame{
 
-    private final Game game;
+    static Game game;
     private final Timer gameTimer;
     private final Header header;
     private final JPanel mainPanel;
@@ -31,10 +31,13 @@ public class GameFrame extends JFrame{
         this.add(mainPConstrain, BorderLayout.CENTER);
 
         //Header
-        //if(game.getGameMode().equals(GameModes.SINGLPLAYER)) {
-            header = new SingleplayerHeader(game);
-            this.add(header, BorderLayout.NORTH);
-        //} else
+        if(game.getGameMode().equals(GameModes.SINGLEPLAYER)) {
+            header = new SingleplayerHeader();
+        } else {
+            header= new MultiplayerHeader();
+        }
+
+        this.add(header, BorderLayout.NORTH);
 
 
         gameTimer = new Timer(interval, new GameTimerListener());
@@ -101,15 +104,16 @@ public class GameFrame extends JFrame{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            for(Player p: game.getPlayers()) {
-                if (p.isLost()) {
-                    gameTimer.stop();
-                    return;
-                }
-            }
             game.playersMove();
             game.refreshApples();
             refreshMainPanel();
+            if(header.getTime()<=0) gameTimer.stop();
+            for(Player p: game.getPlayers()) {
+                if (p.isLost()) {
+                    gameTimer.stop();
+                }
+            }
+
         }
     }
 
@@ -140,7 +144,7 @@ public class GameFrame extends JFrame{
         @Override
         public void keyPressed(KeyEvent e) {
             for(Player p: game.getPlayers()){
-                p.keyPressed(e.getKeyChar());
+                p.keyPressed(e.getKeyCode());
             }
             System.out.println("keyPressed="+KeyEvent.getKeyText(e.getKeyCode()));
         }

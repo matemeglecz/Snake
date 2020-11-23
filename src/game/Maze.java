@@ -19,9 +19,9 @@ public class Maze {
         for(int h=0; h<y; h++){
             for(int w=0; w<x; w++){
                 if(h>0) fields[w][h].addNeighbour(Direction.UP, fields[w][h-1]);
-                if(h<y-2) fields[w][h].addNeighbour(Direction.DOWN, fields[w][h+1]);
+                if(h<y-1) fields[w][h].addNeighbour(Direction.DOWN, fields[w][h+1]);
                 if(w>0) fields[w][h].addNeighbour(Direction.LEFT, fields[w-1][h]);
-                if(w<x-2) fields[w][h].addNeighbour(Direction.RIGHT, fields[w+1][h]);
+                if(w<x-1) fields[w][h].addNeighbour(Direction.RIGHT, fields[w+1][h]);
             }
         }
 

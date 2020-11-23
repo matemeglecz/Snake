@@ -1,16 +1,16 @@
 package game;
 public class Player {
     private final Snake snake;
-    private final char upKey;
-    private final char downKey;
-    private final char rightKey;
-    private final char leftKey;
+    private final int upKey;
+    private final int downKey;
+    private final int rightKey;
+    private final int leftKey;
     private Direction MovingDir;
     private boolean lost;
     private int points;
     private final int originalLength;
 
-    public Player(Snake s, char up, char down, char right, char left){
+    public Player(Snake s, int up, int down, int right, int left){
         snake=s;
         originalLength=s.getLength();
         points=0;
@@ -22,7 +22,7 @@ public class Player {
         lost=false;
     }
 
-    public void keyPressed(char key){
+    public void keyPressed(int key){
         if(key==upKey){
             MovingDir=Direction.UP;
         } else if(key==downKey){

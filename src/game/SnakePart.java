@@ -10,7 +10,7 @@ public class SnakePart extends Thing{
     public SnakePart(Snake s){
         snake=s;
         thingPanel=new JPanel();
-        thingPanel.setBackground(Color.BLUE);
+        thingPanel.setBackground(snake.getColor());
 
     }
     public JPanel getPanel(){

@@ -1,24 +1,38 @@
 package game;
 
 import gamegui.*;
+
+import java.awt.*;
 import java.util.ArrayList;
+
+import static java.awt.event.KeyEvent.*;
 
 public class Game {
     private ArrayList<Player> players=new ArrayList<>();
     private Apple[] apples;
     private final Maze maze;
     private final GameModes gameMode;
+    private final double timeLimit;
 
-    public Game(GameModes mode, int x, int y, int appleNum, int bombNum){
+    public Game(GameModes mode, int x, int y, int appleNum, int bombNum, double tl){
         maze=new Maze(x, y);
         gameMode=mode;
+        timeLimit=tl;
+        apples=new Apple[appleNum];
+        placeApples(appleNum);
+        placeBombs(bombNum);
         if(mode== GameModes.SINGLEPLAYER){
-            apples=new Apple[appleNum];
-            placeApples(appleNum);
-            placeBombs(bombNum);
-            Snake snake=new Snake(10, maze);
+            Snake snake=new Snake(2, Color.BLUE,maze);
             maze.addSnake(snake, 5, 5);
-            players.add(new Player(snake, 'w', 's', 'd', 'a'));
+            players.add(new Player(snake, VK_W, VK_S, VK_D, VK_A));
+            GameFrame f=new GameFrame(this, 500);
+        } else if(mode== GameModes.playerMULTIPLAYER){
+            Snake snake1=new Snake(2, Color.ORANGE,maze);
+            Snake snake2=new Snake(2, Color.BLUE,maze);
+            maze.addSnake(snake1, maze.getWidth()/3, maze.getHeight()/2);
+            maze.addSnake(snake2, (maze.getWidth()*2)/3, maze.getHeight()/2);
+            players.add(new Player(snake1, VK_W, VK_S, VK_D, VK_A));
+            players.add(new Player(snake2, VK_UP, VK_DOWN, VK_RIGHT, VK_LEFT));
             GameFrame f=new GameFrame(this, 500);
         }
     }
@@ -34,6 +48,8 @@ public class Game {
     public GameModes getGameMode(){
         return gameMode;
     }
+
+    public double getTimeLimit(){ return timeLimit;}
 
     private void placeBombs(int num){
         for(int i=0; i< num; i++){

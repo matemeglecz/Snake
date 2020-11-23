@@ -1,4 +1,5 @@
 package game;
+import java.awt.*;
 import java.util.LinkedList;
 
 public class Snake {
@@ -7,11 +8,13 @@ public class Snake {
     private int length;
     private Direction previousDir;
     private boolean dead;
+    private Color color;
 
-    public Snake(int size, Maze m){
+    public Snake(int size, Color c, Maze m){
         maze=m;
         snakeQueue= new LinkedList<>();
         length=size;
+        color=c;
         for(int i=0; i<size;i++) {
             snakeQueue.add(new SnakePart(this));
         }
@@ -74,5 +77,9 @@ public class Snake {
     public void addLength(Field f){
         snakeQueue.addFirst(new SnakePart(this));
         maze.addThing(snakeQueue.get(0), f);
+    }
+
+    public Color getColor(){
+        return color;
     }
 }
