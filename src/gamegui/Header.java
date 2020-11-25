@@ -1,6 +1,5 @@
 package gamegui;
 
-import gamegui.*;
 import game.Player;
 
 import javax.swing.*;
@@ -16,10 +15,10 @@ public abstract class Header extends JPanel {
     protected final JLabel displayedText= new JLabel("Press Enter to start");
     protected Timer headerTimer;
 
-    protected static final int refreshRate = GameFrame.game.getRefreshRate();
+    protected static final int refreshRate = SnakeFrame.game.getRefreshRate();
 
     public Header(){
-        time=GameFrame.game.getTimeLimit();
+        time= SnakeFrame.game.getTimeLimit();
         headerTimer= new Timer(refreshRate, new HeaderTimerListener());
     }
 
@@ -27,7 +26,7 @@ public abstract class Header extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            for(Player p: GameFrame.game.getPlayers()) {
+            for(Player p: SnakeFrame.game.getPlayers()) {
                 if (p.isLost() || time<=0) {
                     headerTimer.stop();
                     displayedText.setText("Game over");

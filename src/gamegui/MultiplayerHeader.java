@@ -1,13 +1,8 @@
 package gamegui;
-import game.Game;
-import game.Player;
-import gamegui.Header;
-import gamegui.SingleplayerHeader;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 
 public class MultiplayerHeader extends Header {
@@ -20,7 +15,7 @@ public class MultiplayerHeader extends Header {
         JPanel lowerPanel= new JPanel();
 
         SimpleDateFormat df=new SimpleDateFormat("mm:ss");
-        timeLabel.setText(df.format(GameFrame.game.getTimeLimit()));
+        timeLabel.setText(df.format(SnakeFrame.game.getTimeLimit()));
         upperPanel.add(timeLabel);
         lowerPanel.add(displayedText);
 

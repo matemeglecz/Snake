@@ -1,14 +1,10 @@
 package gamegui;
-import game.*;
 
-import javax.imageio.ImageIO;
+import game.Snake;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 
 public class SingleplayerHeader extends Header {
@@ -45,7 +41,7 @@ public class SingleplayerHeader extends Header {
 
         rightPanel.add(timeLabel);
         SimpleDateFormat df=new SimpleDateFormat("mm:ss");
-        timeLabel.setText(df.format(GameFrame.game.getTimeLimit()));
+        timeLabel.setText(df.format(SnakeFrame.game.getTimeLimit()));
         centerPanel.add(displayedText);
 
         headerTimer= new Timer(100, new SpHeaderTimerListener());
@@ -66,7 +62,7 @@ public class SingleplayerHeader extends Header {
     private class SpHeaderTimerListener extends HeaderTimerListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-            pointsLabel.setText(String.valueOf(GameFrame.game.getPlayers().get(0).getPoints()));
+            pointsLabel.setText(String.valueOf(SnakeFrame.game.getPlayers().get(0).getPoints()));
             super.actionPerformed(e);
 
         }

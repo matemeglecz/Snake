@@ -6,19 +6,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
 
 public class SidePanel extends JPanel {
 
     private final JLabel pointsLabel= new JLabel("0");
-    private Player player;
+    private final Player player;
     private double timeleft;
     private final Timer timer;
-    private final static int refreshRate=GameFrame.game.getRefreshRate();
+    private final static int refreshRate= SnakeFrame.game.getRefreshRate();
 
     SidePanel(Player p){
         player=p;
-        timeleft=GameFrame.game.getTimeLimit();
+        timeleft= SnakeFrame.game.getTimeLimit();
 
         setBackground(new Color(43 ,43 ,43 ));
         setLayout(new GridBagLayout());
@@ -58,7 +57,7 @@ public class SidePanel extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            for(Player p: GameFrame.game.getPlayers()) {
+            for(Player p: SnakeFrame.game.getPlayers()) {
                 if (p.isLost() || timeleft<=0) {
                     timer.stop();
                     if(player.isLost()){

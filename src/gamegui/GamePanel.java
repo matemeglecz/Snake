@@ -9,9 +9,9 @@ import game.*;
 
 import static java.awt.event.KeyEvent.VK_ENTER;
 
-public class GameFrame extends JFrame{
+public class GamePanel extends JPanel{
 
-    static Game game;
+    private final Game game;
     private final Timer gameTimer;
     private final Header header;
     private final JPanel mainPanel;
@@ -19,12 +19,12 @@ public class GameFrame extends JFrame{
     private SidePanel rightPanel=null;
 
 
-    public GameFrame(Game g){
-        super("Snake");
-        setLayout(new BorderLayout());
-        game=g;
+    public GamePanel(){
 
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
+        game=SnakeFrame.game;
+
+
 
         mainPanel= new GameBoardPanel();
         JPanel mainPConstrain = new JPanel(new GridBagLayout()); //hogy resizolható legyen
@@ -33,7 +33,7 @@ public class GameFrame extends JFrame{
         this.add(mainPConstrain, BorderLayout.CENTER);
 
         //Header
-        if(game.getGameMode().equals(GameModes.SINGLEPLAYER)) {
+        if(SnakeFrame.game.getGameMode().equals(GameModes.SINGLEPLAYER)) {
             header = new SingleplayerHeader();
         } else {
             header= new MultiplayerHeader();
@@ -62,7 +62,7 @@ public class GameFrame extends JFrame{
         add(eastPanel, BorderLayout.WEST);
         eastPanel.setBackground(new Color(43, 43, 43));*/
 
-        this.pack();
+
         this.setVisible(true);
 
 
@@ -118,7 +118,7 @@ public class GameFrame extends JFrame{
                 if(game.getPlayers().get(0).getPoints()<game.getPlayers().get(1).getPoints()){
                     game.getPlayers().get(0).lose();
                 }else if(game.getPlayers().get(0).getPoints()==game.getPlayers().get(1).getPoints()){
-                    for(Player p: GameFrame.game.getPlayers()){
+                    for(Player p: SnakeFrame.game.getPlayers()){
                         p.lose();
                     }
                 } else game.getPlayers().get(1).lose();
