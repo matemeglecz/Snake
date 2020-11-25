@@ -15,20 +15,20 @@ public class Game {
     private final double timeLimit;
     private final int refreshRate;
 
-    public Game(GameModes mode, int x, int y, int appleNum, int bombNum, double tl, int speed){
-        maze=new Maze(x, y);
-        refreshRate=speed;
-        gameMode=mode;
-        timeLimit=tl;
-        apples=new Apple[appleNum];
-        placeApples(appleNum);
-        placeBombs(bombNum);
-        if(mode== GameModes.SINGLEPLAYER){
+    public Game(Settings settings){
+        maze=new Maze(settings.getX(), settings.getY());
+        refreshRate=settings.getSpeed();
+        gameMode=settings.getMode();
+        timeLimit=settings.getTimelimit();
+        apples=new Apple[settings.getApplenum()];
+        placeApples(settings.getApplenum());
+        placeBombs(settings.getBombnum());
+        if(settings.getMode()== GameModes.SINGLEPLAYER){
             Snake snake=new Snake(2, Color.BLUE,maze);
             maze.addSnake(snake, 5, 5);
             players.add(new Player(snake, VK_W, VK_S, VK_D, VK_A));
             //new Snake(this);
-        } else if(mode== GameModes.playerMULTIPLAYER){
+        } else if(settings.getMode()== GameModes.playerMULTIPLAYER){
             Snake snake1=new Snake(2, Color.ORANGE,maze);
             Snake snake2=new Snake(2, Color.BLUE,maze);
             maze.addSnake(snake1, maze.getWidth()/3, maze.getHeight()/2);

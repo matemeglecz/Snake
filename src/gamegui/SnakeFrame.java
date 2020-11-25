@@ -2,6 +2,7 @@ package gamegui;
 
 import game.Game;
 import game.GameModes;
+import game.Settings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,7 +22,7 @@ public class SnakeFrame extends JFrame {
 
 
 
-        game=new Game(GameModes.playerMULTIPLAYER, 30, 30, 15, 15, 30000, 500);
+        game=new Game(new Settings(GameModes.playerMULTIPLAYER, 30, 30, 15, 15, 30000, 500));
         add(new GamePanel());
         this.pack();
         setVisible(true);
