@@ -14,6 +14,7 @@ public class SnakeFrame extends JFrame {
     static Game game;
     static Settings settings;
     private JPanel mainPanel;
+    private MenuBar menuBar;
 
     static {
         try {
@@ -23,18 +24,21 @@ public class SnakeFrame extends JFrame {
         }
     }
 
-    private View view=View.SETTINGS;
+    private View view=View.GAME;
 
 
     public SnakeFrame() {
         super("Snake");
+        setResizable(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setJMenuBar(new MenuBar(this));
+        menuBar=new MenuBar(this);
+        setJMenuBar(menuBar);
 
-        mainPanel=new SettingsPanel();
+        game=new Game(settings);
+        mainPanel=new GamePanel();
         add(mainPanel);
 
-        //game=new Game(settings);
+        //g
         //add(new GamePanel());
         this.pack();
         setVisible(true);
@@ -46,12 +50,16 @@ public class SnakeFrame extends JFrame {
             game=new Game(settings);
             mainPanel=new GamePanel();
             add(mainPanel);
+            this.pack();
             setVisible(true);
+            mainPanel.requestFocusInWindow();
+
             view=View.GAME;
         } else if(view==View.SETTINGS){
             remove(mainPanel);
             mainPanel=new SettingsPanel();
             add(mainPanel);
+            this.pack();
             setVisible(true);
         }
 

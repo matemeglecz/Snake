@@ -1,10 +1,8 @@
 package gamegui;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
+
 import game.*;
 
 import static java.awt.event.KeyEvent.VK_ENTER;
@@ -24,8 +22,6 @@ public class GamePanel extends JPanel{
         setLayout(new BorderLayout());
         game=SnakeFrame.game;
 
-
-
         mainPanel= new GameBoardPanel();
         JPanel mainPConstrain = new JPanel(new GridBagLayout()); //hogy resizolható legyen
         mainPConstrain.setBackground(new Color(43, 43, 43));
@@ -39,11 +35,12 @@ public class GamePanel extends JPanel{
             header= new MultiplayerHeader();
             leftPanel= new SidePanel(game.getPlayers().get(0));
             rightPanel= new SidePanel(game.getPlayers().get(1));
+            this.add(leftPanel, BorderLayout.WEST);
+            this.add(rightPanel, BorderLayout.EAST);
         }
 
         this.add(header, BorderLayout.NORTH);
-        this.add(leftPanel, BorderLayout.WEST);
-        this.add(rightPanel, BorderLayout.EAST);
+
 
 
         gameTimer = new Timer(game.getRefreshRate(), new GameTimerListener());
@@ -53,6 +50,18 @@ public class GamePanel extends JPanel{
 
         StartKeyListener start=new StartKeyListener();
         addKeyListener(start);
+
+        this.addFocusListener(new FocusListener(){
+            public void focusGained(FocusEvent e){
+                System.out.println("Focus GAINED:"+e);
+            }
+            public void focusLost(FocusEvent e){
+                System.out.println("Focus LOST:"+e);
+
+                // FIX FOR GNOME/XWIN FOCUS BUG
+                e.getComponent().requestFocus();
+            }
+        });
 
         /*JPanel westPanel=new JPanel();
         add(westPanel, BorderLayout.WEST);
@@ -115,13 +124,15 @@ public class GamePanel extends JPanel{
             refreshMainPanel();
             if(header.getTime()<=0) {
                 gameTimer.stop();
-                if(game.getPlayers().get(0).getPoints()<game.getPlayers().get(1).getPoints()){
-                    game.getPlayers().get(0).lose();
-                }else if(game.getPlayers().get(0).getPoints()==game.getPlayers().get(1).getPoints()){
-                    for(Player p: SnakeFrame.game.getPlayers()){
-                        p.lose();
-                    }
-                } else game.getPlayers().get(1).lose();
+                if (game.getGameMode() != GameModes.SINGLEPLAYER) {
+                    if (game.getPlayers().get(0).getPoints() < game.getPlayers().get(1).getPoints()) {
+                        game.getPlayers().get(0).lose();
+                    } else if (game.getPlayers().get(0).getPoints() == game.getPlayers().get(1).getPoints()) {
+                        for (Player p : SnakeFrame.game.getPlayers()) {
+                            p.lose();
+                        }
+                    } else game.getPlayers().get(1).lose();
+                }
             }
             for(Player p: game.getPlayers()) {
                 if (p.isLost()) {
@@ -182,8 +193,10 @@ public class GamePanel extends JPanel{
             if(e.getKeyCode()==VK_ENTER) {
                 gameTimer.start();
                 header.headerTimerStart();
-                rightPanel.sidePanelTimerStart();
-                leftPanel.sidePanelTimerStart();
+                if(game.getGameMode()!=GameModes.SINGLEPLAYER) {
+                    rightPanel.sidePanelTimerStart();
+                    leftPanel.sidePanelTimerStart();
+                }
             }
 
         }

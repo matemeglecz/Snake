@@ -44,7 +44,7 @@ public class SingleplayerHeader extends Header {
         timeLabel.setText(df.format(SnakeFrame.game.getTimeLimit()));
         centerPanel.add(displayedText);
 
-        headerTimer= new Timer(100, new SpHeaderTimerListener());
+        headerTimer= new Timer(refreshRate, new SpHeaderTimerListener());
 
         add(leftPanel);
         add(centerPanel);
