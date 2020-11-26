@@ -19,6 +19,7 @@ public class MenuBar extends JMenuBar {
             public void menuSelected(MenuEvent e) {
                 if(e.getSource().equals(newGame)){
                     snakeFrame.setView(View.NEW_GAME);
+                    System.out.println("haho");
                 } else if(e.getSource().equals(leaderBoard)){
                     snakeFrame.setView(View.LEADERBOARD_SETTINGS);
                 } else if(e.getSource().equals(settings)){

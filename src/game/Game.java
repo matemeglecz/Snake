@@ -16,7 +16,7 @@ public class Game {
     private final int refreshRate;
 
     public Game(Settings settings){
-        maze=new Maze(settings.getX(), settings.getY());
+        maze=new Maze(settings.getN(), settings.getN());
         refreshRate=settings.getSpeed();
         gameMode=settings.getMode();
         timeLimit=settings.getTimelimit();
