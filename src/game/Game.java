@@ -69,8 +69,20 @@ public class Game {
         }
     }
 
+    private boolean allFieldsOccupied(){
+        for(int h=0; h<maze.getHeight(); h++) {
+            for (int w = 0; w < maze.getWidth(); w++) {
+                if(maze.getFields()[w][h].getOnFiled()==null){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     public void refreshApples(){
         for (Apple apple : apples) {
+            if(allFieldsOccupied()) return;
             if (apple.isEaten()) {
                 apple.recycleApple();
                 placeOneThing(apple);

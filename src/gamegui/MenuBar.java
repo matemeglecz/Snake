@@ -22,7 +22,7 @@ public class MenuBar extends JMenuBar {
                     snakeFrame.setView(View.NEW_GAME);
                     System.out.println("haho");
                 } else if(e.getSource().equals(leaderBoard)){
-                    snakeFrame.setView(View.LEADERBOARD_SETTINGS);
+                    snakeFrame.setView(View.LEADERBOARD);
                 } else if(e.getSource().equals(settings)){
                     snakeFrame.setView(View.SETTINGS);
                 }

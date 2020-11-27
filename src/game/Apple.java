@@ -20,6 +20,7 @@ public class Apple extends Thing {
     @Override
     public void HitBy(Snake s) {
         s.addLength(position);
+        position=null;
         eaten=true;
     }
 

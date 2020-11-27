@@ -51,7 +51,7 @@ public class GamePanel extends JPanel{
         StartKeyListener start=new StartKeyListener();
         addKeyListener(start);
 
-        this.addFocusListener(new FocusListener(){
+        /*this.addFocusListener(new FocusListener(){
             public void focusGained(FocusEvent e){
                 System.out.println("Focus GAINED:"+e);
             }
@@ -61,7 +61,7 @@ public class GamePanel extends JPanel{
                 // FIX FOR GNOME/XWIN FOCUS BUG
                 e.getComponent().requestFocus();
             }
-        });
+        });*/
 
         /*JPanel westPanel=new JPanel();
         add(westPanel, BorderLayout.WEST);

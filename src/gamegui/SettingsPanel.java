@@ -305,7 +305,6 @@ public class SettingsPanel extends JPanel {
                     newBombnum=50;
                 } else if(customBomb.isSelected()){
                     newBombnum=bombtf.getNumber();
-                    System.out.println(newBombnum);
                 }
 
                 try {
@@ -318,7 +317,7 @@ public class SettingsPanel extends JPanel {
 
                 SnakeFrame.settings=newSettings;
                 warninglabel.setForeground(new Color(90, 164, 105));
-                warninglabel.setText("Sikeres mentés");
+                warninglabel.setText("Successful save");
             }
         }
 

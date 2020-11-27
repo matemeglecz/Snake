@@ -61,6 +61,12 @@ public class SnakeFrame extends JFrame {
             add(mainPanel);
             this.pack();
             setVisible(true);
+        } else if(view==View.LEADERBOARD){
+            remove(mainPanel);
+            mainPanel=new LeaderBoardPanel();
+            add(mainPanel);
+            this.pack();
+            setVisible(true);
         }
 
     }

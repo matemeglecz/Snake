@@ -53,7 +53,7 @@ public class Settings {
     }
 
     public void setApplenum(int a) throws InvalidSettingsException{
-        if((mode==GameModes.SINGLEPLAYER && (n*n-2)<applenum) || (mode!=GameModes.SINGLEPLAYER && (n * n - 4) < applenum)){
+        if((mode==GameModes.SINGLEPLAYER && (n*n-2)<a) || (mode!=GameModes.SINGLEPLAYER && (n * n - 4) < a)){
                 throw new InvalidSettingsException("Number of apples is invalid");
             }
         applenum=a;
@@ -63,11 +63,11 @@ public class Settings {
         return bombnum;
     }
 
-    public void setBombnum(int n) throws InvalidSettingsException{
-        if((mode==GameModes.SINGLEPLAYER && (n*n-2)<bombnum) || (mode!=GameModes.SINGLEPLAYER && (n * n - 4) < bombnum)){
-            throw new InvalidSettingsException("Number of apples is invalid");
+    public void setBombnum(int b) throws InvalidSettingsException{
+        if((mode==GameModes.SINGLEPLAYER && (n*n-2)<b) || (mode!=GameModes.SINGLEPLAYER && (n * n - 4) < b)){
+            throw new InvalidSettingsException("Number of bombs is invalid");
         }
-        bombnum=n;
+        bombnum=b;
     }
 
     public double getTimelimit() {
