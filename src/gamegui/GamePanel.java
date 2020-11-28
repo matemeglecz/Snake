@@ -119,7 +119,6 @@ public class GamePanel extends JPanel{
 
     private class GameTimerListener implements ActionListener{
 
-
         @Override
         public void actionPerformed(ActionEvent e) {
             game.playersMove();
@@ -147,6 +146,7 @@ public class GamePanel extends JPanel{
                     namePanel.add(nameButton);
                     add(namePanel, BorderLayout.SOUTH);
                     refreshMainPanel();
+                    return;
                 }
             }
             for(Player p: game.getPlayers()) {

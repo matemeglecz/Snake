@@ -32,24 +32,25 @@ public class Snake {
         return snakeQueue;
     }
 
-    public void move(Direction d){
+    public Field move(Direction d){
         Field nextField=snakeQueue.get(0).getPosition().getNeighbours().get(d);
 
         //magába nem tud menni
-        if(nextField.equals(snakeQueue.get(1).getPosition())){
+        //ha a következő field null akkor biztos kimegyünk
+        if(nextField!=null && nextField.equals(snakeQueue.get(1).getPosition())){
             nextField=snakeQueue.get(0).getPosition().getNeighbours().get(previousDir);
         } else previousDir=d;
 
         if(nextField==null){
             Die();
-            return;
+            return null;
         }
 
         //magába nem tud menni itt volt
 
         if(nextField.getOnFiled()!=null){
             nextField.getOnFiled().HitBy(this);
-            return;
+            return nextField;
         }
 
         SnakePart sp=new SnakePart(this);
@@ -66,6 +67,7 @@ public class Snake {
         System.out.println(nextField);
 
         maze.removeThing(snakeQueue.removeLast());
+        return nextField;
 
     }
 

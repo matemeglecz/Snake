@@ -102,9 +102,23 @@ public class Game {
     }
 
     public void playersMove(){
+        Field[] nextfields=new Field[players.size()];
+        int i=0;
         for(Player p: players){
-            p.moveSnake();
-            if(p.isLost()) return;
+            nextfields[i]= p.moveSnake();
+            if(nextfields[i]!=null) {
+                for (int j = 0; j < nextfields.length; j++) {
+                    if(i==j) break;
+                    if (nextfields[i] == nextfields[j]) {
+                        players.get(i).lose();
+                        players.get(j).lose();
+                        nextfields[i].getPanel().setBackground(Color.red);
+                    }
+                }
+            }
+
+            i++;
+            //if(p.isLost()) return;
         }
     }
 
@@ -142,7 +156,6 @@ public class Game {
             e.printStackTrace();
         }
         leaderboard.addRank(name, players.get(0).getPoints(), settings);
-
-
     }
+    public void gameOver()
 }

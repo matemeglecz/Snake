@@ -10,13 +10,13 @@ public class robotPlayer extends Player{
     public void keyPressed(int key) { }
 
     @Override
-    public void moveSnake(){
+    public Field moveSnake(){
         switch (Game.getRandomInteger(1,4)) {
             case 1 -> MovingDir = Direction.DOWN;
             case 2 -> MovingDir = Direction.RIGHT;
             case 3 -> MovingDir = Direction.LEFT;
             default -> MovingDir = Direction.UP;
         }
-        super.moveSnake();
+        return super.moveSnake();
     }
 }

@@ -17,12 +17,13 @@ public abstract class Player {
 
     public abstract void keyPressed(int key);
 
-    public void moveSnake(){
-        snake.move(MovingDir);
+    public Field moveSnake(){
+        Field next=snake.move(MovingDir);
         points=snake.getLength()-snake.getOriginalLength();
         if(snake.isDead()){
             lost=true;
         }
+        return next;
     }
 
     public boolean isLost(){
