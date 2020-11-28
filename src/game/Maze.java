@@ -1,9 +1,9 @@
 package game;
 
 public class Maze {
-    private Field[][] fields;
-    private int width;
-    private int height;
+    private final Field[][] fields;
+    private final int width;
+    private final int height;
 
     public Maze(int x, int y){
         fields=new Field[x][y];

@@ -1,7 +1,5 @@
 package leaderboard;
 
-import game.GameModes;
-import game.NotSavableRank;
 import game.Settings;
 
 import javax.swing.table.AbstractTableModel;
@@ -11,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class LeaderboardData extends AbstractTableModel {
-    List<LeaderBoardItem> leaderBoard=new ArrayList<LeaderBoardItem>();
+    List<LeaderBoardItem> leaderBoard= new ArrayList<>();
 
     @Override
     public int getRowCount() {
@@ -26,26 +24,22 @@ public class LeaderboardData extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         LeaderBoardItem item = leaderBoard.get(rowIndex);
-        switch(columnIndex) {
-            case 0: return rowIndex+1;
-            case 1: return item.getName();
-            default: return item.getPoints();
-        }
+        return switch (columnIndex) {
+            case 0 -> rowIndex + 1;
+            case 1 -> item.getName();
+            default -> item.getPoints();
+        };
     }
 
     @Override
     public String getColumnName(int column) {
-        switch(column) {
-            case 0: return "Rank";
-            case 1: return "Name";
-            default: return "Points";
-        }
+        return switch (column) {
+            case 0 -> "Rank";
+            case 1 -> "Name";
+            default -> "Points";
+        };
     }
 
-
-    /*public void setLeaderBoard(List<LeaderBoardItem> leaderBoard){
-        this.leaderBoard=leaderBoard;
-    }*/
     @SuppressWarnings("unchecked")
     public void leaderBoardInit(Settings settings) throws FileNotFoundException {
         String filename;
@@ -63,12 +57,9 @@ public class LeaderboardData extends AbstractTableModel {
             ois.close();
         } catch(FileNotFoundException noFile) {
             throw noFile;
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        //Collections.sort(leaderBoard, new RankComperator(), Collections.reverseOrder());
         leaderBoard.sort(new RankComperator());
         Collections.reverse(leaderBoard);
     }

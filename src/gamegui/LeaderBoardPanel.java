@@ -22,9 +22,7 @@ public class LeaderBoardPanel extends JPanel {
     private final JPanel bottomPanel= new JPanel();
     private final JPanel tablePanel= new JPanel();
     private final JPanel noFilePanel= new JPanel();
-    //private Settings leaderBoardSettings= new Settings();
     private final LeaderboardData data;
-    //private boolean tableExists;
 
     //speed
     private JRadioButton slowSpeed;
@@ -58,11 +56,9 @@ public class LeaderBoardPanel extends JPanel {
             }else data.leaderBoardInit(new Settings());
         } catch (FileNotFoundException e) {
             centerPanel.add(noFilePanel);
-            //tableExists=false;
             return;
         }
         centerPanel.add(tablePanel);
-        //tableExists=true;
 
     }
 
@@ -187,24 +183,13 @@ public class LeaderBoardPanel extends JPanel {
                 }
                 centerPanel.removeAll();
                 repaint();
-                /*revalidate();
-                centerPanel.revalidate();*/
                 try {
                     data.leaderBoardInit(newSettings);
                 } catch (FileNotFoundException fileNotFoundException) {
-                    //if(tableExists){
-                        centerPanel.add(noFilePanel);
-                        revalidate();
-                        return;
-                    //}
-                }
-                /*if(tableExists) {
-                    table.setModel(data);
-                    table.revalidate();
-                } else{
-                    centerPanel.add(tablePanel);
+                    centerPanel.add(noFilePanel);
                     revalidate();
-                }*/
+                    return;
+                }
                 centerPanel.add(tablePanel);
                 revalidate();
             }

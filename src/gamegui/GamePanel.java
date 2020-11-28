@@ -54,27 +54,6 @@ public class GamePanel extends JPanel{
         StartKeyListener start=new StartKeyListener();
         addKeyListener(start);
 
-        /*this.addFocusListener(new FocusListener(){
-            public void focusGained(FocusEvent e){
-                System.out.println("Focus GAINED:"+e);
-            }
-            public void focusLost(FocusEvent e){
-                System.out.println("Focus LOST:"+e);
-
-                // FIX FOR GNOME/XWIN FOCUS BUG
-                e.getComponent().requestFocus();
-            }
-        });*/
-
-        /*JPanel westPanel=new JPanel();
-        add(westPanel, BorderLayout.WEST);
-        westPanel.setBackground(new Color(43, 43, 43));
-
-        JPanel eastPanel=new JPanel();
-        add(eastPanel, BorderLayout.WEST);
-        eastPanel.setBackground(new Color(43, 43, 43));*/
-
-
         this.setVisible(true);
 
 
@@ -140,7 +119,9 @@ public class GamePanel extends JPanel{
                 bottomPanel.setBackground(new Color(43, 43, 43));
                 JButton nextButton = new JButton();
                 if (game.isRankable() && !game.getPlayers().get(0).isLost()) {
-                    bottomPanel.add(new JLabel("Name:"));
+                    JLabel nameLabel=new JLabel("Name:");
+                    nameLabel.setForeground(Color.white);
+                    bottomPanel.add(nameLabel);
                     nameTextfield = new JTextField();
                     nameTextfield.setColumns(15);
                     bottomPanel.add(nameTextfield);
@@ -210,12 +191,10 @@ public class GamePanel extends JPanel{
             for(Player p: game.getPlayers()){
                 p.keyPressed(e.getKeyCode());
             }
-            System.out.println("keyPressed="+KeyEvent.getKeyText(e.getKeyCode()));
         }
 
         @Override
         public void keyReleased(KeyEvent e) {
-            System.out.println("keyReleased="+KeyEvent.getKeyText(e.getKeyCode()));
         }
     }
 

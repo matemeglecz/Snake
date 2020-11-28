@@ -4,8 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Apple extends Thing {
-    private Field position;
-    private final JPanel thingPanel;
     private boolean eaten;
 
     public Apple(){
@@ -13,9 +11,7 @@ public class Apple extends Thing {
         thingPanel.setBackground(Color.GREEN);
         eaten=false;
     }
-    public JPanel getPanel(){
-        return thingPanel;
-    }
+
 
     @Override
     public void HitBy(Snake s) {

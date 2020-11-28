@@ -8,19 +8,7 @@ import java.awt.event.ActionEvent;
 import java.text.SimpleDateFormat;
 
 public class SingleplayerHeader extends Header {
-
-    //private final Game game;
-    //private double time;
-    //private final JLabel timeLabel= new JLabel();
-
-    //private final JLabel displayedText= new JLabel("Press Enter to start");
-    //private final Timer headerTimer;
-
-    //private final int refreshRate = 100;
-
     private final JLabel pointsLabel= new JLabel("0");
-
-
 
     public SingleplayerHeader(){
         super();
@@ -49,7 +37,6 @@ public class SingleplayerHeader extends Header {
         add(leftPanel);
         add(centerPanel);
         add(rightPanel);
-        //leftPanel.setOpaque(true);
         leftPanel.setBackground(new Color(43, 43, 43));
         centerPanel.setBackground(new Color(43, 43, 43));
         rightPanel.setBackground(new Color(43, 43, 43));

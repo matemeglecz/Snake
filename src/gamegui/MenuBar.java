@@ -14,18 +14,13 @@ public class MenuBar extends JMenuBar {
         JMenuItem newGame= new JMenuItem("New Game");
         JMenuItem leaderBoard= new JMenuItem("Leaderboard");
         JMenuItem settings= new JMenuItem("Settings");
-        ChangeListener menuListener=new ChangeListener() {
-
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                if(e.getSource().equals(newGame)){
-                    snakeFrame.setView(View.NEW_GAME);
-                    System.out.println("haho");
-                } else if(e.getSource().equals(leaderBoard)){
-                    snakeFrame.setView(View.LEADERBOARD);
-                } else if(e.getSource().equals(settings)){
-                    snakeFrame.setView(View.SETTINGS);
-                }
+        ChangeListener menuListener= e -> {
+            if(e.getSource().equals(newGame)){
+                snakeFrame.setView(View.NEW_GAME);
+            } else if(e.getSource().equals(leaderBoard)){
+                snakeFrame.setView(View.LEADERBOARD);
+            } else if(e.getSource().equals(settings)){
+                snakeFrame.setView(View.SETTINGS);
             }
         };
         newGame.addChangeListener(menuListener);

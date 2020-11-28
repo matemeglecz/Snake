@@ -6,10 +6,9 @@ import java.util.ArrayList;
 import java.util.TreeMap;
 
 public class Field {
-    //private ArrayList<Thing> things=new ArrayList<Thing>();
     private Thing onFiled;
-    private TreeMap<Direction, Field> neighbours;
-    //private JPanel displayedPanel;
+    private final TreeMap<Direction, Field> neighbours;
+
 
     public Field(){
         neighbours=new TreeMap<>();
@@ -20,13 +19,11 @@ public class Field {
     }
 
     public JPanel getPanel(){
-        //if(things.size()==0){
         if(onFiled==null){
             JPanel panel=new JPanel();
             panel.setBackground(Color.GRAY);
             return panel;
         } else return onFiled.getPanel();
-            //return things.get(0).getPanel();
     }
 
     public TreeMap<Direction, Field> getNeighbours(){
@@ -34,16 +31,13 @@ public class Field {
     }
 
     public void accept(Thing t){
-        //things.add(t);
         onFiled=t;
         t.setPosition(this);
-        //ütköztet
     }
 
     public void removeThing(){
         onFiled.setPosition(null);
         onFiled=null;
-        //if(things.size()==0) displayedPanel.setBackground(Color.GRAY);
     }
 
     public void setThing(Thing t){

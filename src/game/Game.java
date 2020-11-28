@@ -1,9 +1,7 @@
 package game;
 
-import gamegui.*;
 import leaderboard.LeaderboardData;
 
-import javax.swing.*;
 import java.awt.*;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -121,7 +119,6 @@ public class Game {
             }
 
             i++;
-            //if(p.isLost()) return;
         }
     }
 

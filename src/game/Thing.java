@@ -2,8 +2,8 @@ package game;
 import javax.swing.*;
 
 public abstract class Thing {
-    private Field position;
-    private JPanel thingPanel;
+    protected Field position;
+    protected JPanel thingPanel;
 
     public JPanel getPanel(){
         return thingPanel;

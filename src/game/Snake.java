@@ -55,16 +55,9 @@ public class Snake {
 
         SnakePart sp=new SnakePart(this);
         snakeQueue.addFirst(sp);
-/*
-        System.out.println(snakeQueue.size());
-        System.out.println(snakeQueue.get(1));
-        System.out.println(snakeQueue.get(1).getPosition());
-*/
+
         maze.addThing(snakeQueue.get(0), nextField);
         nextField.setThing(snakeQueue.get(0));
-
-        System.out.println(snakeQueue.get(0).getPosition());
-        System.out.println(nextField);
 
         maze.removeThing(snakeQueue.removeLast());
         return nextField;

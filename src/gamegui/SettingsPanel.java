@@ -62,11 +62,8 @@ public class SettingsPanel extends JPanel {
         panel1.add(new JLabel("Mode:"));
         ButtonGroup modeButtonGroup= new ButtonGroup();
         singleMode=new JRadioButton("Singleplayer", SnakeFrame.settings.getMode().equals(GameModes.SINGLEPLAYER));
-        //singleButton.setActionCommand("singleplayer");
         playerMode=new JRadioButton("Player-player", SnakeFrame.settings.getMode().equals(GameModes.playerMULTIPLAYER));
-        //playerButton.setActionCommand("player");
         robotMode=new JRadioButton("Player-robot", SnakeFrame.settings.getMode().equals(GameModes.robotMULTIPLAYER));
-        //robotButton.setActionCommand("robot");
 
         modeButtonGroup.add(singleMode);
         modeButtonGroup.add(playerMode);
@@ -82,17 +79,14 @@ public class SettingsPanel extends JPanel {
         ButtonGroup sizeButtonGroup= new ButtonGroup();
         defaultSize=new JRadioButton("Default(" + Settings.getDefaultSize() + "x" + Settings.getDefaultSize() + ")",
                 SnakeFrame.settings.getN()==Settings.getDefaultSize());
-        //defaultSize.setActionCommand("defaultSize");
         defaultSize.addActionListener(settingsListener);
         customSize=new JRadioButton("Custom:", !defaultSize.isSelected());
-        //customSize.setActionCommand("customSize");
         customSize.addActionListener(settingsListener);
         sizeButtonGroup.add(defaultSize);
         sizeButtonGroup.add(customSize);
         panel2.add(new JLabel("Field size:"));
         mazeSizetf= new JNumberTextField(3);
         mazeSizetf.setText(String.valueOf(SnakeFrame.settings.getN()));
-        //mazeSizetf.setColumns(4);
         if(defaultSize.isSelected()){
             mazeSizetf.setEditable(false);
         }
@@ -106,17 +100,14 @@ public class SettingsPanel extends JPanel {
         ButtonGroup timeButtonGroup= new ButtonGroup();
         defaultTime=new JRadioButton("Default("+ Settings.getDefaultTimelimit()/1000 + "s)",
                 SnakeFrame.settings.getTimelimit()==Settings.getDefaultTimelimit());
-        //defaultTime.setActionCommand("defaultTime");
         defaultTime.addActionListener(settingsListener);
         customTime=new JRadioButton("Custom:", !defaultTime.isSelected());
-        //customTime.setActionCommand("customTime");
         customTime.addActionListener(settingsListener);
         timeButtonGroup.add(defaultTime);
         timeButtonGroup.add(customTime);
         panel3.add(new JLabel("Time limit:"));
         timeLimittf= new JNumberTextField(4);
         timeLimittf.setText(String.valueOf((int)SnakeFrame.settings.getTimelimit()/1000));
-        //timeLimittf.setColumns(4);
         if(defaultTime.isSelected()){
             timeLimittf.setEditable(false);
         }
@@ -145,7 +136,6 @@ public class SettingsPanel extends JPanel {
         speedButtonGroup.add(customSpeed);
         speedtf= new JNumberTextField(4);
         speedtf.setText(String.valueOf(SnakeFrame.settings.getSpeed()));
-        //speedtf.setColumns(4);
         if(!customSpeed.isSelected()){
             speedtf.setEditable(false);
         }

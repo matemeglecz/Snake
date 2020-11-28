@@ -26,8 +26,7 @@ public class SnakeFrame extends JFrame {
         mainPanel=new GamePanel(this);
         add(mainPanel);
 
-        //g
-        //add(new GamePanel());
+
         this.pack();
         setVisible(true);
     }

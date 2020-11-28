@@ -9,7 +9,6 @@ import java.text.SimpleDateFormat;
 
 
 public abstract class Header extends JPanel {
-    //protected final Game game;
     private double time;
     protected final JLabel timeLabel= new JLabel();
     protected final JLabel displayedText= new JLabel("Press Enter to start");
