@@ -1,14 +1,9 @@
 package gamegui;
 
 import game.Game;
-import game.GameModes;
-import game.InvalidSettingsException;
 import game.Settings;
-
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 
 public class SnakeFrame extends JFrame {
     static Game game;
@@ -20,6 +15,8 @@ public class SnakeFrame extends JFrame {
 
     public SnakeFrame() {
         super("Snake");
+        ImageIcon icon = new ImageIcon("images" + System.getProperty("file.separator") + "snakeicon.png");
+        setIconImage(icon.getImage());
         setResizable(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         menuBar=new MenuBar(this);
@@ -69,22 +66,4 @@ public class SnakeFrame extends JFrame {
             refreshView();
         }
     }
-
-    /*private class ButtonListener implements ActionListener{
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            gp=new GamePanel();
-            mp.remove(testP);
-            mp.add(new GamePanel(), BorderLayout.CENTER);
-            //loadGamePanel();
-            //remove(testP);
-            revalidate();
-        }
-    }
-
-    private void loadGamePanel(){
-        this.add(new GamePanel(), BorderLayout.CENTER);
-        this.revalidate();
-    }*/
 }

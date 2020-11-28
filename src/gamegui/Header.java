@@ -26,14 +26,14 @@ public abstract class Header extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            for(Player p: SnakeFrame.game.getPlayers()) {
-                if (p.isLost() || time<=0) {
-                    headerTimer.stop();
-                    displayedText.setText("Game over");
-                    revalidate();
-                    return;
-                }
+
+            if (SnakeFrame.game.isGameOver()) {
+                headerTimer.stop();
+                displayedText.setText("Game over");
+                revalidate();
+                return;
             }
+
             time-=refreshRate;
             SimpleDateFormat df=new SimpleDateFormat("mm:ss");
             timeLabel.setText(df.format(time));

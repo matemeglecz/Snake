@@ -126,33 +126,35 @@ public class GamePanel extends JPanel{
             refreshMainPanel();
             if(header.getTime()<=0) {
                 gameTimer.stop();
-                if (game.getGameMode() != GameModes.SINGLEPLAYER) {
-                    if (game.getPlayers().get(0).getPoints() < game.getPlayers().get(1).getPoints()) {
-                        game.getPlayers().get(0).lose();
-                    } else if (game.getPlayers().get(0).getPoints() == game.getPlayers().get(1).getPoints()) {
-                        for (Player p : SnakeFrame.game.getPlayers()) {
-                            p.lose();
-                        }
-                    } else game.getPlayers().get(1).lose();
-                } else if (game.isRankable() && !game.getPlayers().get(0).isLost()){
-                    JPanel namePanel=new JPanel();
-                    namePanel.add(new JLabel("Name:"));
-                    nameTextfield =new JTextField();
-                    nameTextfield.setColumns(15);
-                    namePanel.add(nameTextfield);
-                    JButton nameButton=new JButton("Next");
-                    nameButton.setActionCommand("Next");
-                    nameButton.addActionListener(new NameButtonListener());
-                    namePanel.add(nameButton);
-                    add(namePanel, BorderLayout.SOUTH);
-                    refreshMainPanel();
-                    return;
-                }
+                game.gameOver(header.getTime());
             }
+
             for(Player p: game.getPlayers()) {
                 if (p.isLost()) {
                     gameTimer.stop();
+                    game.gameOver(header.getTime());
                     }
+            }
+            if(game.isGameOver()) {
+                JPanel bottomPanel = new JPanel();
+                bottomPanel.setBackground(new Color(43, 43, 43));
+                JButton nextButton = new JButton();
+                if (game.isRankable() && !game.getPlayers().get(0).isLost()) {
+                    bottomPanel.add(new JLabel("Name:"));
+                    nameTextfield = new JTextField();
+                    nameTextfield.setColumns(15);
+                    bottomPanel.add(nameTextfield);
+                    nextButton.setText("Next");
+                    nextButton.setActionCommand("Next");
+                } else {
+                    nextButton.setText("New Game");
+                    nextButton.setActionCommand("New game");
+                }
+                nextButton.addActionListener(new NameButtonListener());
+                bottomPanel.add(nextButton);
+                add(bottomPanel, BorderLayout.SOUTH);
+                refreshMainPanel();
+
             }
         }
     }

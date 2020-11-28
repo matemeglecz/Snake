@@ -11,13 +11,12 @@ public class SidePanel extends JPanel {
 
     private final JLabel pointsLabel= new JLabel("0");
     private final Player player;
-    private double timeleft;
     private final Timer timer;
     private final static int refreshRate= SnakeFrame.game.getRefreshRate();
 
     SidePanel(Player p){
         player=p;
-        timeleft= SnakeFrame.game.getTimeLimit();
+
 
         setBackground(new Color(43 ,43 ,43 ));
         setLayout(new GridBagLayout());
@@ -57,17 +56,15 @@ public class SidePanel extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            for(Player p: SnakeFrame.game.getPlayers()) {
-                if (p.isLost() || timeleft<=0) {
-                    timer.stop();
-                    if(player.isLost()){
-                        setBackground(Color.RED);
-                    } else if(!player.isLost())setBackground(Color.GREEN);
+
+            if (SnakeFrame.game.isGameOver()) {
+                timer.stop();
+                if(player.isLost()){
+                    setBackground(Color.RED);
+                } else if(!player.isLost())setBackground(Color.GREEN);
                     revalidate();
-                    //return;
                 }
-            }
-            timeleft-=refreshRate;
+
             pointsLabel.setText(String.valueOf(player.getPoints()));
             revalidate();
         }

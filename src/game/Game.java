@@ -3,6 +3,7 @@ package game;
 import gamegui.*;
 import leaderboard.LeaderboardData;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -17,8 +18,10 @@ public class Game {
     private final double timeLimit;
     private final int refreshRate;
     private final Settings settings;
+    private boolean gameOver;
 
     public Game(Settings settings){
+        gameOver=false;
         this.settings=settings;
         maze=new Maze(settings.getN(), settings.getN());
         refreshRate=settings.getSpeed();
@@ -157,5 +160,22 @@ public class Game {
         }
         leaderboard.addRank(name, players.get(0).getPoints(), settings);
     }
-    public void gameOver()
+    public void gameOver(double timeLeft){
+        gameOver=true;
+        if(timeLeft>0) {
+            if (gameMode != GameModes.SINGLEPLAYER) {
+                if (players.get(0).getPoints() < players.get(1).getPoints()) {
+                    players.get(0).lose();
+                } else if (players.get(0).getPoints() == players.get(1).getPoints()) {
+                    for (Player p : players) {
+                        p.lose();
+                    }
+                } else players.get(1).lose();
+            }
+        }
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
+    }
 }
