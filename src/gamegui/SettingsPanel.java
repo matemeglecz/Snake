@@ -13,44 +13,44 @@ import java.awt.event.KeyEvent;
 
 public class SettingsPanel extends JPanel {
     //modes
-    private JRadioButton singleMode;
-    private JRadioButton playerMode;
-    private JRadioButton robotMode;
+    private final JRadioButton singleMode;
+    private final JRadioButton playerMode;
+    private final JRadioButton robotMode;
 
     //size
     private final JNumberTextField mazeSizetf;
-    private JRadioButton defaultSize;
-    private JRadioButton customSize;
+    private final JRadioButton defaultSize;
+    private final JRadioButton customSize;
 
     //timelimit
-    private JRadioButton defaultTime;
-    private JRadioButton customTime;
+    private final JRadioButton defaultTime;
+    private final JRadioButton customTime;
     private final JNumberTextField timeLimittf;
 
     //speed
-    private JRadioButton slowSpeed;
-    private JRadioButton normalSpeed;
-    private JRadioButton fastSpeed;
-    private JRadioButton customSpeed;
-    private JNumberTextField speedtf;
+    private final JRadioButton slowSpeed;
+    private final JRadioButton normalSpeed;
+    private final JRadioButton fastSpeed;
+    private final JRadioButton customSpeed;
+    private final JNumberTextField speedtf;
 
     //apples
-    private JRadioButton fewApple;
-    private JRadioButton normalApple;
-    private JRadioButton plentyApple;
-    private JRadioButton customApple;
-    private JNumberTextField appletf;
+    private final JRadioButton fewApple;
+    private final JRadioButton normalApple;
+    private final JRadioButton plentyApple;
+    private final JRadioButton customApple;
+    private final JNumberTextField appletf;
 
     //bombs
-    private JRadioButton fewBomb;
-    private JRadioButton normalBomb;
-    private JRadioButton plentyBomb;
-    private JRadioButton customBomb;
-    private JNumberTextField bombtf;
+    private final JRadioButton fewBomb;
+    private final JRadioButton normalBomb;
+    private final JRadioButton plentyBomb;
+    private final JRadioButton customBomb;
+    private final JNumberTextField bombtf;
 
     //save
-    private JButton saveButton;
-    private JLabel warninglabel=new JLabel("");
+    private final JButton saveButton;
+    private final JLabel warninglabel=new JLabel("");
 
     public SettingsPanel(){
         setLayout(new GridLayout(7, 1));
@@ -80,7 +80,8 @@ public class SettingsPanel extends JPanel {
         //maze size
         JPanel panel2=new JPanel();
         ButtonGroup sizeButtonGroup= new ButtonGroup();
-        defaultSize=new JRadioButton("Default(30x30)", SnakeFrame.settings.getN()==30);
+        defaultSize=new JRadioButton("Default(" + Settings.getDefaultSize() + "x" + Settings.getDefaultSize() + ")",
+                SnakeFrame.settings.getN()==Settings.getDefaultSize());
         //defaultSize.setActionCommand("defaultSize");
         defaultSize.addActionListener(settingsListener);
         customSize=new JRadioButton("Custom:", !defaultSize.isSelected());
@@ -103,7 +104,8 @@ public class SettingsPanel extends JPanel {
         //timelimit
         JPanel panel3=new JPanel();
         ButtonGroup timeButtonGroup= new ButtonGroup();
-        defaultTime=new JRadioButton("Default(120s)", SnakeFrame.settings.getTimelimit()/1000==120);
+        defaultTime=new JRadioButton("Default("+ Settings.getDefaultTimelimit()/1000 + "s)",
+                SnakeFrame.settings.getTimelimit()==Settings.getDefaultTimelimit());
         //defaultTime.setActionCommand("defaultTime");
         defaultTime.addActionListener(settingsListener);
         customTime=new JRadioButton("Custom:", !defaultTime.isSelected());
@@ -126,9 +128,12 @@ public class SettingsPanel extends JPanel {
         //snake speed
         JPanel panel4=new JPanel();
         ButtonGroup speedButtonGroup= new ButtonGroup();
-        slowSpeed=new JRadioButton("Slow(0.7s)", SnakeFrame.settings.getSpeed()==700);
-        normalSpeed=new JRadioButton("Normal(0.5s)", SnakeFrame.settings.getSpeed()==500);
-        fastSpeed=new JRadioButton("Fast(0.2s)", SnakeFrame.settings.getSpeed()==200);
+        slowSpeed=new JRadioButton("Slow(" + Settings.getDefaultSlowspeed() + "ms)",
+                SnakeFrame.settings.getSpeed()==Settings.getDefaultSlowspeed());
+        normalSpeed=new JRadioButton("Normal("+ Settings.getDefaultNormalspeed() +"ms)",
+                SnakeFrame.settings.getSpeed()==Settings.getDefaultNormalspeed());
+        fastSpeed=new JRadioButton("Fast("+ Settings.getDefaultFastspeed() +"ms)",
+                SnakeFrame.settings.getSpeed()==Settings.getDefaultFastspeed());
         customSpeed=new JRadioButton("Custom(ms):", !slowSpeed.isSelected() && !normalSpeed.isSelected() && !fastSpeed.isSelected());
         slowSpeed.addActionListener(settingsListener);
         normalSpeed.addActionListener(settingsListener);
@@ -155,9 +160,12 @@ public class SettingsPanel extends JPanel {
         //apples
         JPanel panel5=new JPanel();
         ButtonGroup appleButtonGroup= new ButtonGroup();
-        fewApple=new JRadioButton("Few(5)", SnakeFrame.settings.getApplenum()==5);
-        normalApple=new JRadioButton("Normal(15)", SnakeFrame.settings.getApplenum()==15);
-        plentyApple=new JRadioButton("Plenty(50)", SnakeFrame.settings.getApplenum()==50);
+        fewApple=new JRadioButton("Few("+ Settings.getDefaultFewapple() +")",
+                SnakeFrame.settings.getApplenum()==Settings.getDefaultFewapple());
+        normalApple=new JRadioButton("Normal("+ Settings.getDefaultNormalapple()+")",
+                SnakeFrame.settings.getApplenum()==Settings.getDefaultNormalapple());
+        plentyApple=new JRadioButton("Plenty("+ Settings.getDefaultPlentyapple()+")",
+                SnakeFrame.settings.getApplenum()==Settings.getDefaultPlentyapple());
         customApple=new JRadioButton("Custom:", !fewApple.isSelected() && !normalApple.isSelected() && !plentyApple.isSelected());
         fewApple.addActionListener(settingsListener);
         normalApple.addActionListener(settingsListener);
@@ -183,9 +191,12 @@ public class SettingsPanel extends JPanel {
         //bombs
         JPanel panel6=new JPanel();
         ButtonGroup bombButtonGroup= new ButtonGroup();
-        fewBomb=new JRadioButton("Few(5)", SnakeFrame.settings.getBombnum()==5);
-        normalBomb=new JRadioButton("Normal(15)", SnakeFrame.settings.getBombnum()==15);
-        plentyBomb=new JRadioButton("Plenty(50)", SnakeFrame.settings.getBombnum()==50);
+        fewBomb=new JRadioButton("Few("+ Settings.getDefaultFewbomb()+")",
+                SnakeFrame.settings.getBombnum()==Settings.getDefaultFewbomb());
+        normalBomb=new JRadioButton("Normal("+ Settings.getDefaultNormalbomb()+")",
+                SnakeFrame.settings.getBombnum()==Settings.getDefaultNormalbomb());
+        plentyBomb=new JRadioButton("Plenty("+ Settings.getDefaultPlentybomb()+")",
+                SnakeFrame.settings.getBombnum()==Settings.getDefaultPlentybomb());
         customBomb=new JRadioButton("Custom:", !fewBomb.isSelected() && !normalBomb.isSelected() && !plentyBomb.isSelected());
         fewBomb.addActionListener(settingsListener);
         normalBomb.addActionListener(settingsListener);
@@ -255,11 +266,11 @@ public class SettingsPanel extends JPanel {
             //save button
             if(e.getSource().equals(saveButton)) {
                 GameModes newMode=GameModes.SINGLEPLAYER;
-                int newTimeLimit=120000;
-                int newApplenum=15;
-                int newBombnum=15;
-                int newSpeed=500;
-                int newSize=30;
+                int newTimeLimit=Settings.getDefaultTimelimit();
+                int newApplenum=Settings.getDefaultNormalapple();
+                int newBombnum=Settings.getDefaultNormalbomb();
+                int newSpeed=Settings.getDefaultNormalspeed();
+                int newSize=Settings.getDefaultSize();
                 Settings newSettings;
 
                 if (singleMode.isSelected()) {
@@ -270,39 +281,39 @@ public class SettingsPanel extends JPanel {
                     newMode=GameModes.robotMULTIPLAYER;
                 }
                 if(defaultSize.isSelected()){
-                    newSize=30;
+                    newSize=Settings.getDefaultSize();
                 } else if (customSize.isSelected()){
                     newSize=mazeSizetf.getNumber();
                 }
                 if(defaultTime.isSelected()){
-                    newTimeLimit=120000;
+                    newTimeLimit=Settings.getDefaultTimelimit();
                 } else if(customTime.isSelected()){
                     newTimeLimit=timeLimittf.getNumber()*1000;
                 }
                 if(slowSpeed.isSelected()){
-                    newSpeed=700;
+                    newSpeed=Settings.getDefaultSlowspeed();
                 } else if(normalSpeed.isSelected()){
-                    newSpeed=500;
+                    newSpeed=Settings.getDefaultNormalspeed();
                 } else if(fastSpeed.isSelected()){
-                    newSpeed=200;
+                    newSpeed=Settings.getDefaultFastspeed();
                 } else if(customSpeed.isSelected()){
                     newSpeed=speedtf.getNumber();
                 }
                 if(fewApple.isSelected()){
-                    newApplenum=5;
+                    newApplenum=Settings.getDefaultFewapple();
                 } else if(normalApple.isSelected()){
-                    newApplenum=15;
+                    newApplenum=Settings.getDefaultNormalapple();
                 } else if(plentyApple.isSelected()){
-                    newApplenum=50;
+                    newApplenum=Settings.getDefaultPlentyapple();
                 } else if(customApple.isSelected()){
                     newApplenum=appletf.getNumber();System.out.println(newApplenum);
                 }
                 if(fewBomb.isSelected()){
-                    newBombnum=5;
+                    newBombnum=Settings.getDefaultFewbomb();
                 } else if(normalBomb.isSelected()){
-                    newBombnum=15;
+                    newBombnum=Settings.getDefaultNormalbomb();
                 } else if(plentyBomb.isSelected()){
-                    newBombnum=50;
+                    newBombnum=Settings.getDefaultPlentybomb();
                 } else if(customBomb.isSelected()){
                     newBombnum=bombtf.getNumber();
                 }

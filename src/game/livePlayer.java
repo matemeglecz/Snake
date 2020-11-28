@@ -2,7 +2,7 @@ package game;
 
 import java.awt.*;
 
-public class Player {
+public class livePlayer extends Player{
     private final Snake snake;
     private final int upKey;
     private final int downKey;
@@ -13,7 +13,7 @@ public class Player {
     private int points;
     private final int originalLength;
 
-    public Player(Snake s, int up, int down, int right, int left){
+    public livePlayer(Snake s, int up, int down, int right, int left){
         snake=s;
         originalLength=s.getLength();
         points=0;
@@ -60,5 +60,4 @@ public class Player {
     public Color getColor(){
         return snake.getColor();
     }
-
 }

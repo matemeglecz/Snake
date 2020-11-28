@@ -3,6 +3,20 @@ package game;
 import gamegui.SingleplayerHeader;
 
 public class Settings {
+    //default values
+    private static final int DEFAULT_SIZE=30;
+    private static final int DEFAULT_TIMELIMIT=3000;
+    private static final int DEFAULT_SLOWSPEED=700;
+    private static final int DEFAULT_NORMALSPEED=500;
+    private static final int DEFAULT_FASTSPEED=200;
+    private static final int DEFAULT_FEWAPPLE=5;
+    private static final int DEFAULT_NORMALAPPLE=15;
+    private static final int DEFAULT_PLENTYAPPLE=50;
+    private static final int DEFAULT_FEWBOMB=5;
+    private static final int DEFAULT_NORMALBOMB=15;
+    private static final int DEFAULT_PLENTYBOMB=50;
+
+
     private GameModes mode;
     private int n;
     private int applenum;
@@ -12,11 +26,11 @@ public class Settings {
 
     public Settings(){
         this.mode=GameModes.SINGLEPLAYER;
-        this.n=30;
-        this.applenum=15;
-        this.bombnum=15;
-        this.timelimit=120000;
-        this.speed=500;
+        this.n=DEFAULT_SIZE;
+        this.applenum=DEFAULT_NORMALAPPLE;
+        this.bombnum=DEFAULT_NORMALBOMB;
+        this.timelimit=DEFAULT_TIMELIMIT;
+        this.speed=DEFAULT_NORMALSPEED;
     }
 
     public Settings(GameModes mode, int n, int appleNum, int bombNum, double tl, int speed) throws InvalidSettingsException{
@@ -30,6 +44,21 @@ public class Settings {
         }
         setTimelimit(tl);
         setSpeed(speed);
+    }
+
+    public boolean isRankable(){
+        if (mode == GameModes.SINGLEPLAYER && timelimit==DEFAULT_TIMELIMIT && n==DEFAULT_SIZE) {
+            return (speed == Settings.getDefaultSlowspeed() ||
+                    speed == Settings.getDefaultNormalspeed() ||
+                    speed == Settings.getDefaultFastspeed())
+                    && (applenum == Settings.getDefaultFewapple() ||
+                    applenum == Settings.getDefaultNormalapple() ||
+                    applenum == Settings.getDefaultPlentyapple())
+                    && (applenum == Settings.getDefaultFewbomb() ||
+                    bombnum == Settings.getDefaultNormalbomb() ||
+                    bombnum == Settings.getDefaultPlentybomb());
+        }
+        return false;
     }
 
     public GameModes getMode(){
@@ -84,5 +113,49 @@ public class Settings {
 
     public void setSpeed(int s){
         speed=s;
+    }
+
+    public static int getDefaultSize() {
+        return DEFAULT_SIZE;
+    }
+
+    public static int getDefaultTimelimit() {
+        return DEFAULT_TIMELIMIT;
+    }
+
+    public static int getDefaultSlowspeed() {
+        return DEFAULT_SLOWSPEED;
+    }
+
+    public static int getDefaultNormalspeed() {
+        return DEFAULT_NORMALSPEED;
+    }
+
+    public static int getDefaultFastspeed() {
+        return DEFAULT_FASTSPEED;
+    }
+
+    public static int getDefaultFewapple() {
+        return DEFAULT_FEWAPPLE;
+    }
+
+    public static int getDefaultNormalapple() {
+        return DEFAULT_NORMALAPPLE;
+    }
+
+    public static int getDefaultPlentyapple() {
+        return DEFAULT_PLENTYAPPLE;
+    }
+
+    public static int getDefaultFewbomb() {
+        return DEFAULT_FEWBOMB;
+    }
+
+    public static int getDefaultNormalbomb() {
+        return DEFAULT_NORMALBOMB;
+    }
+
+    public static int getDefaultPlentybomb() {
+        return DEFAULT_PLENTYBOMB;
     }
 }

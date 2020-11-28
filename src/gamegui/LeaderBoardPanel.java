@@ -7,6 +7,7 @@ import leaderboard.LeaderBoardItem;
 import leaderboard.LeaderboardData;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,14 +18,13 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 public class LeaderBoardPanel extends JPanel {
-    private JPanel centerPanel = new JPanel();
-    private JPanel bottomPanel= new JPanel();
-    private JPanel tablePanel= new JPanel();
-    private JPanel noFilePanel= new JPanel();
+    private final JPanel centerPanel = new JPanel();
+    private final JPanel bottomPanel= new JPanel();
+    private final JPanel tablePanel= new JPanel();
+    private final JPanel noFilePanel= new JPanel();
     //private Settings leaderBoardSettings= new Settings();
-    private LeaderboardData data;
-    private JTable table;
-    private boolean tableExists;
+    private final LeaderboardData data;
+    //private boolean tableExists;
 
     //speed
     private JRadioButton slowSpeed;
@@ -51,25 +51,32 @@ public class LeaderBoardPanel extends JPanel {
         add(bottomPanel, BorderLayout.SOUTH);
         data=new LeaderboardData();
         add(centerPanel, BorderLayout.CENTER);
+        tablePanelInit();
         try {
-            data.leaderBoardInit(new Settings());
+            if(SnakeFrame.game.isRankable()) {
+                data.leaderBoardInit(SnakeFrame.settings);
+            }else data.leaderBoardInit(new Settings());
         } catch (FileNotFoundException e) {
             centerPanel.add(noFilePanel);
-            tableExists=false;
+            //tableExists=false;
             return;
         }
-        tablePanelInit();
         centerPanel.add(tablePanel);
-        tableExists=true;
+        //tableExists=true;
 
     }
 
     private void tablePanelInit(){
-        table=new JTable();
+        JTable table = new JTable();
         table.setFillsViewportHeight(true);
         table.setModel(data);
         JScrollPane scrollPane=new JScrollPane(table);
         tablePanel.add(scrollPane);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+        for(int i=0; i<table.getColumnCount(); i++) {
+            table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
     }
 
     private void bottomPanelInit(){
@@ -143,33 +150,33 @@ public class LeaderBoardPanel extends JPanel {
             //save button
             if(e.getSource().equals(saveButton)) {
                 GameModes newMode=GameModes.SINGLEPLAYER;
-                int newTimeLimit=120000;
-                int newApplenum=15;
-                int newBombnum=15;
-                int newSpeed=500;
-                int newSize=30;
+                int newTimeLimit=Settings.getDefaultTimelimit();
+                int newApplenum=Settings.getDefaultNormalapple();
+                int newBombnum=Settings.getDefaultNormalbomb();
+                int newSpeed=Settings.getDefaultNormalspeed();
+                int newSize=Settings.getDefaultSize();
                 Settings newSettings;
 
                 if(slowSpeed.isSelected()){
-                    newSpeed=700;
+                    newSpeed=Settings.getDefaultSlowspeed();
                 } else if(normalSpeed.isSelected()){
-                    newSpeed=500;
+                    newSpeed=Settings.getDefaultNormalspeed();
                 } else if(fastSpeed.isSelected()){
-                    newSpeed=200;
+                    newSpeed=Settings.getDefaultFastspeed();
                 }
                 if(fewApple.isSelected()){
-                    newApplenum=5;
+                    newApplenum=Settings.getDefaultFewapple();
                 } else if(normalApple.isSelected()){
-                    newApplenum=15;
+                    newApplenum=Settings.getDefaultNormalapple();
                 } else if(plentyApple.isSelected()){
-                    newApplenum=50;
+                    newApplenum=Settings.getDefaultPlentyapple();
                 }
                 if(fewBomb.isSelected()){
-                    newBombnum=5;
+                    newBombnum=Settings.getDefaultFewbomb();
                 } else if(normalBomb.isSelected()){
-                    newBombnum=15;
+                    newBombnum=Settings.getDefaultNormalbomb();
                 } else if(plentyBomb.isSelected()){
-                    newBombnum=50;
+                    newBombnum=Settings.getDefaultPlentybomb();
                 }
 
                 try {
@@ -178,23 +185,28 @@ public class LeaderBoardPanel extends JPanel {
                     invalidSettingsException.printStackTrace();
                     return;
                 }
-
+                centerPanel.removeAll();
+                repaint();
+                /*revalidate();
+                centerPanel.revalidate();*/
                 try {
                     data.leaderBoardInit(newSettings);
                 } catch (FileNotFoundException fileNotFoundException) {
-                    if(tableExists){
+                    //if(tableExists){
                         centerPanel.add(noFilePanel);
                         revalidate();
                         return;
-                    }
+                    //}
                 }
-                if(tableExists) {
+                /*if(tableExists) {
                     table.setModel(data);
                     table.revalidate();
                 } else{
                     centerPanel.add(tablePanel);
                     revalidate();
-                }
+                }*/
+                centerPanel.add(tablePanel);
+                revalidate();
             }
         }
     }

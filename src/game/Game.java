@@ -1,8 +1,10 @@
 package game;
 
 import gamegui.*;
+import leaderboard.LeaderboardData;
 
 import java.awt.*;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import static java.awt.event.KeyEvent.*;
@@ -14,8 +16,10 @@ public class Game {
     private final GameModes gameMode;
     private final double timeLimit;
     private final int refreshRate;
+    private final Settings settings;
 
     public Game(Settings settings){
+        this.settings=settings;
         maze=new Maze(settings.getN(), settings.getN());
         refreshRate=settings.getSpeed();
         gameMode=settings.getMode();
@@ -25,7 +29,7 @@ public class Game {
         placeBombs(settings.getBombnum());
         if(settings.getMode()== GameModes.SINGLEPLAYER){
             Snake snake=new Snake(2, Color.BLUE,maze);
-            maze.addSnake(snake, 5, 5);
+            maze.addSnake(snake, maze.getWidth()/2, maze.getHeight() / 2);
             players.add(new Player(snake, VK_W, VK_S, VK_D, VK_A));
             //new Snake(this);
         } else if(settings.getMode()== GameModes.playerMULTIPLAYER){
@@ -36,6 +40,13 @@ public class Game {
             players.add(new Player(snake1, VK_W, VK_S, VK_D, VK_A));
             players.add(new Player(snake2, VK_UP, VK_DOWN, VK_RIGHT, VK_LEFT));
             //new GamePanel(this);
+        } else if(settings.getMode()== GameModes.robotMULTIPLAYER) {
+            Snake snake1 = new Snake(2, Color.ORANGE, maze);
+            Snake snake2 = new Snake(2, Color.BLUE, maze);
+            maze.addSnake(snake1, maze.getWidth() / 3, maze.getHeight() / 2);
+            maze.addSnake(snake2, (maze.getWidth() * 2) / 3, maze.getHeight() / 2);
+            players.add(new Player(snake1, VK_W, VK_S, VK_D, VK_A));
+            players.add(new Player(snake2, VK_UP, VK_DOWN, VK_RIGHT, VK_LEFT));
         }
     }
 
@@ -112,5 +123,26 @@ public class Game {
 
     private int getRandomInteger(double min, double max){
         return (int)((Math.random()*((max-min)+1))+min);
+    }
+
+    public Settings getSettings() {
+        return settings;
+    }
+
+    public boolean isRankable() {
+        return settings.isRankable();
+    }
+
+    public void saveRank(String name) throws NotSavableRank{
+        if(!isRankable()) throw new NotSavableRank();
+        LeaderboardData leaderboard=new LeaderboardData();
+        try {
+            leaderboard.leaderBoardInit(settings);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        leaderboard.addRank(name, players.get(0).getPoints(), settings);
+
+
     }
 }

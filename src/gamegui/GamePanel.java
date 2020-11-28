@@ -9,16 +9,19 @@ import static java.awt.event.KeyEvent.VK_ENTER;
 
 public class GamePanel extends JPanel{
 
+    private final SnakeFrame snakeFrame;
     private final Game game;
     private final Timer gameTimer;
     private final Header header;
     private final JPanel mainPanel;
     private SidePanel leftPanel=null;
     private SidePanel rightPanel=null;
+    private JTextField nameTextfield;
 
 
-    public GamePanel(){
+    public GamePanel(SnakeFrame sf){
 
+        snakeFrame=sf;
         setLayout(new BorderLayout());
         game=SnakeFrame.game;
 
@@ -132,12 +135,48 @@ public class GamePanel extends JPanel{
                             p.lose();
                         }
                     } else game.getPlayers().get(1).lose();
+                } else if (game.isRankable() && !game.getPlayers().get(0).isLost()){
+                    JPanel namePanel=new JPanel();
+                    namePanel.add(new JLabel("Name:"));
+                    nameTextfield =new JTextField();
+                    nameTextfield.setColumns(15);
+                    namePanel.add(nameTextfield);
+                    JButton nameButton=new JButton("Next");
+                    nameButton.setActionCommand("Next");
+                    nameButton.addActionListener(new NameButtonListener());
+                    namePanel.add(nameButton);
+                    add(namePanel, BorderLayout.SOUTH);
+                    refreshMainPanel();
                 }
             }
             for(Player p: game.getPlayers()) {
                 if (p.isLost()) {
                     gameTimer.stop();
+                    //game.gameOver();
+                    }
+            }
+
+
+        }
+    }
+
+    private class NameButtonListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(e.getActionCommand().equals("Next")){
+                try {
+                    game.saveRank(nameTextfield.getText());
+                } catch (NotSavableRank notSavableRank) {
+                    notSavableRank.printStackTrace();
                 }
+                JButton source=(JButton) e.getSource();
+                source.setText("New Game");
+                source.setActionCommand("New game");
+                nameTextfield.setEditable(false);
+                refreshMainPanel();
+            } else if(e.getActionCommand().equals("New game")){
+                snakeFrame.setView(View.NEW_GAME);
             }
 
         }

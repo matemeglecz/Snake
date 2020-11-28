@@ -34,15 +34,18 @@ public class Snake {
 
     public void move(Direction d){
         Field nextField=snakeQueue.get(0).getPosition().getNeighbours().get(d);
-        if(nextField==null){
-            Die();
-            return;
-        }
 
         //magába nem tud menni
         if(nextField.equals(snakeQueue.get(1).getPosition())){
             nextField=snakeQueue.get(0).getPosition().getNeighbours().get(previousDir);
         } else previousDir=d;
+
+        if(nextField==null){
+            Die();
+            return;
+        }
+
+        //magába nem tud menni itt volt
 
         if(nextField.getOnFiled()!=null){
             nextField.getOnFiled().HitBy(this);

@@ -15,15 +15,6 @@ public class SnakeFrame extends JFrame {
     static Settings settings;
     private JPanel mainPanel;
     private MenuBar menuBar;
-
-    static {
-        try {
-            settings = new Settings(GameModes.playerMULTIPLAYER, 30, 15, 15, 30000, 500);
-        } catch (InvalidSettingsException e) {
-            e.printStackTrace();
-        }
-    }
-
     private View view=View.GAME;
 
 
@@ -34,8 +25,9 @@ public class SnakeFrame extends JFrame {
         menuBar=new MenuBar(this);
         setJMenuBar(menuBar);
 
+        settings = new Settings();
         game=new Game(settings);
-        mainPanel=new GamePanel();
+        mainPanel=new GamePanel(this);
         add(mainPanel);
 
         //g
@@ -48,7 +40,7 @@ public class SnakeFrame extends JFrame {
         if(view==View.NEW_GAME){
             remove(mainPanel);
             game=new Game(settings);
-            mainPanel=new GamePanel();
+            mainPanel=new GamePanel(this);
             add(mainPanel);
             this.pack();
             setVisible(true);

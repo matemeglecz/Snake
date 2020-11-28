@@ -1,14 +1,13 @@
 package leaderboard;
 
 import game.GameModes;
+import game.NotSavableRank;
 import game.Settings;
 
 import javax.swing.table.AbstractTableModel;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class LeaderboardData extends AbstractTableModel {
@@ -28,7 +27,7 @@ public class LeaderboardData extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         LeaderBoardItem item = leaderBoard.get(rowIndex);
         switch(columnIndex) {
-            case 0: return rowIndex;
+            case 0: return rowIndex+1;
             case 1: return item.getName();
             default: return item.getPoints();
         }
@@ -43,40 +42,20 @@ public class LeaderboardData extends AbstractTableModel {
         }
     }
 
+
     /*public void setLeaderBoard(List<LeaderBoardItem> leaderBoard){
         this.leaderBoard=leaderBoard;
     }*/
     @SuppressWarnings("unchecked")
     public void leaderBoardInit(Settings settings) throws FileNotFoundException {
         String filename;
-        if(settings.getMode()!= GameModes.SINGLEPLAYER
-                || settings.getTimelimit()!=120000
-                ||settings.getN()!=30){
+
+        try {
+            filename=makeFilename(settings);
+        } catch (NotRankableSetting notRankableSetting) {
             return;
         }
 
-        switch (settings.getSpeed()){
-            case 700: filename="s"; break;
-            case 500: filename="n"; break;
-            case 200: filename="f"; break;
-            default: return;
-        }
-
-        switch (settings.getApplenum()){
-            case 5: filename=filename + "f"; break;
-            case 15: filename=filename + "n"; break;
-            case 50: filename=filename + "p"; break;
-            default: return;
-        }
-
-        switch (settings.getBombnum()){
-            case 5: filename=filename + "f"; break;
-            case 15: filename=filename + "n"; break;
-            case 50: filename=filename + "p"; break;
-            default: return;
-        }
-
-        filename=filename + ".ser";
 
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename));
@@ -89,7 +68,62 @@ public class LeaderboardData extends AbstractTableModel {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+        //Collections.sort(leaderBoard, new RankComperator(), Collections.reverseOrder());
+        leaderBoard.sort(new RankComperator());
+        Collections.reverse(leaderBoard);
+    }
 
+    public void addRank(String name, int points, Settings settings){
+        leaderBoard.add(new LeaderBoardItem(name, points));
+        leaderBoard.sort(new RankComperator());
+        Collections.reverse(leaderBoard);
+        try {
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(makeFilename(settings)));
+            oos.writeObject(leaderBoard);
+            oos.close();
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private String makeFilename(Settings settings) throws NotRankableSetting {
+        String filename;
+        filename="leaderboards" + System.getProperty("file.separator");
+        if(!settings.isRankable()){
+            throw new NotRankableSetting();
+        }
+
+        if(settings.getSpeed()==Settings.getDefaultSlowspeed()){
+            filename=filename + "s";
+        } else if(settings.getSpeed()==Settings.getDefaultNormalspeed()){
+            filename=filename + "n";
+        } else if(settings.getSpeed()==Settings.getDefaultFastspeed()){
+            filename=filename + "f";
+        } else {
+            throw new NotRankableSetting();
+        }
+
+        if(settings.getApplenum()==Settings.getDefaultFewapple()){
+            filename=filename + "f";
+        } else if(settings.getApplenum()==Settings.getDefaultNormalapple()){
+            filename=filename + "n";
+        } else if(settings.getApplenum()==Settings.getDefaultPlentyapple()){
+            filename=filename +"p";
+        } else {
+            throw new NotRankableSetting();
+        }
+
+        if(settings.getBombnum()==Settings.getDefaultFewbomb()){
+            filename=filename +"f";
+        } else if(settings.getBombnum()==Settings.getDefaultNormalbomb()){
+            filename=filename +"n";
+        } else if(settings.getBombnum()==Settings.getDefaultPlentybomb()){
+            filename=filename +"p";
+        } else {
+            throw new NotRankableSetting();
+        }
+
+        return (filename + ".ser");
 
     }
 
