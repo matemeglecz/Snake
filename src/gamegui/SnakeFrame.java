@@ -9,7 +9,6 @@ public class SnakeFrame extends JFrame {
     static Game game;
     static Settings settings;
     private JPanel mainPanel;
-    private MenuBar menuBar;
     private View view=View.GAME;
 
 
@@ -19,7 +18,7 @@ public class SnakeFrame extends JFrame {
         setIconImage(icon.getImage());
         setResizable(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        menuBar=new MenuBar(this);
+        MenuBar menuBar = new MenuBar(this);
         setJMenuBar(menuBar);
 
         settings = new Settings();
