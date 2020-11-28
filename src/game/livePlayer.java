@@ -3,26 +3,22 @@ package game;
 import java.awt.*;
 
 public class livePlayer extends Player{
-    private final Snake snake;
+    //private final Snake snake;
     private final int upKey;
     private final int downKey;
     private final int rightKey;
     private final int leftKey;
-    private Direction MovingDir;
+    /*private Direction MovingDir;
     private boolean lost;
     private int points;
-    private final int originalLength;
+    private final int originalLength;*/
 
     public livePlayer(Snake s, int up, int down, int right, int left){
-        snake=s;
-        originalLength=s.getLength();
-        points=0;
+        super(s);
         upKey=up;
         downKey=down;
         rightKey=right;
         leftKey=left;
-        MovingDir=Direction.UP; // default
-        lost=false;
     }
 
     public void keyPressed(int key){
@@ -37,7 +33,7 @@ public class livePlayer extends Player{
         }
     }
 
-    public void moveSnake(){
+    /*public void moveSnake(){
         snake.move(MovingDir);
         points=snake.getLength()-originalLength;
         if(snake.isDead()){
@@ -59,5 +55,5 @@ public class livePlayer extends Player{
 
     public Color getColor(){
         return snake.getColor();
-    }
+    }*/
 }

@@ -152,11 +152,8 @@ public class GamePanel extends JPanel{
             for(Player p: game.getPlayers()) {
                 if (p.isLost()) {
                     gameTimer.stop();
-                    //game.gameOver();
                     }
             }
-
-
         }
     }
 

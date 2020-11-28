@@ -30,23 +30,23 @@ public class Game {
         if(settings.getMode()== GameModes.SINGLEPLAYER){
             Snake snake=new Snake(2, Color.BLUE,maze);
             maze.addSnake(snake, maze.getWidth()/2, maze.getHeight() / 2);
-            players.add(new Player(snake, VK_W, VK_S, VK_D, VK_A));
+            players.add(new livePlayer(snake, VK_W, VK_S, VK_D, VK_A));
             //new Snake(this);
         } else if(settings.getMode()== GameModes.playerMULTIPLAYER){
             Snake snake1=new Snake(2, Color.ORANGE,maze);
             Snake snake2=new Snake(2, Color.BLUE,maze);
             maze.addSnake(snake1, maze.getWidth()/3, maze.getHeight()/2);
             maze.addSnake(snake2, (maze.getWidth()*2)/3, maze.getHeight()/2);
-            players.add(new Player(snake1, VK_W, VK_S, VK_D, VK_A));
-            players.add(new Player(snake2, VK_UP, VK_DOWN, VK_RIGHT, VK_LEFT));
+            players.add(new livePlayer(snake1, VK_W, VK_S, VK_D, VK_A));
+            players.add(new livePlayer(snake2, VK_UP, VK_DOWN, VK_RIGHT, VK_LEFT));
             //new GamePanel(this);
         } else if(settings.getMode()== GameModes.robotMULTIPLAYER) {
             Snake snake1 = new Snake(2, Color.ORANGE, maze);
             Snake snake2 = new Snake(2, Color.BLUE, maze);
             maze.addSnake(snake1, maze.getWidth() / 3, maze.getHeight() / 2);
             maze.addSnake(snake2, (maze.getWidth() * 2) / 3, maze.getHeight() / 2);
-            players.add(new Player(snake1, VK_W, VK_S, VK_D, VK_A));
-            players.add(new Player(snake2, VK_UP, VK_DOWN, VK_RIGHT, VK_LEFT));
+            players.add(new livePlayer(snake1, VK_W, VK_S, VK_D, VK_A));
+            players.add(new robotPlayer(snake2));
         }
     }
 
@@ -121,7 +121,7 @@ public class Game {
         return t;
     }
 
-    private int getRandomInteger(double min, double max){
+    public static int getRandomInteger(double min, double max){
         return (int)((Math.random()*((max-min)+1))+min);
     }
 

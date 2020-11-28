@@ -5,7 +5,7 @@ import gamegui.SingleplayerHeader;
 public class Settings {
     //default values
     private static final int DEFAULT_SIZE=30;
-    private static final int DEFAULT_TIMELIMIT=3000;
+    private static final int DEFAULT_TIMELIMIT=60000;
     private static final int DEFAULT_SLOWSPEED=700;
     private static final int DEFAULT_NORMALSPEED=500;
     private static final int DEFAULT_FASTSPEED=200;

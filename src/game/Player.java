@@ -2,44 +2,24 @@ package game;
 
 import java.awt.*;
 
-public class Player {
+public abstract class Player {
     private final Snake snake;
-    private final int upKey;
-    private final int downKey;
-    private final int rightKey;
-    private final int leftKey;
-    private Direction MovingDir;
+    protected Direction MovingDir;
     private boolean lost;
     private int points;
-    private final int originalLength;
 
-    public Player(Snake s, int up, int down, int right, int left){
+    public Player(Snake s){
         snake=s;
-        originalLength=s.getLength();
         points=0;
-        upKey=up;
-        downKey=down;
-        rightKey=right;
-        leftKey=left;
         MovingDir=Direction.UP; // default
         lost=false;
     }
 
-    public void keyPressed(int key){
-        if(key==upKey){
-            MovingDir=Direction.UP;
-        } else if(key==downKey){
-            MovingDir=Direction.DOWN;
-        } else if(key==rightKey){
-            MovingDir=Direction.RIGHT;
-        } else if(key==leftKey){
-            MovingDir=Direction.LEFT;
-        }
-    }
+    public abstract void keyPressed(int key);
 
     public void moveSnake(){
         snake.move(MovingDir);
-        points=snake.getLength()-originalLength;
+        points=snake.getLength()-snake.getOriginalLength();
         if(snake.isDead()){
             lost=true;
         }

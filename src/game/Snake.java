@@ -3,17 +3,17 @@ import java.awt.*;
 import java.util.LinkedList;
 
 public class Snake {
-    private LinkedList<SnakePart> snakeQueue;
-    private Maze maze;
-    private int length;
+    private final LinkedList<SnakePart> snakeQueue;
+    private final Maze maze;
+    private final int originalLength;
     private Direction previousDir;
     private boolean dead;
-    private Color color;
+    private final Color color;
 
     public Snake(int size, Color c, Maze m){
         maze=m;
         snakeQueue= new LinkedList<>();
-        length=size;
+        originalLength=size;
         color=c;
         for(int i=0; i<size;i++) {
             snakeQueue.add(new SnakePart(this));
@@ -84,5 +84,9 @@ public class Snake {
 
     public Color getColor(){
         return color;
+    }
+
+    public int getOriginalLength() {
+        return originalLength;
     }
 }
