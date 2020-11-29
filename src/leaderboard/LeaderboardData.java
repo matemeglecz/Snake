@@ -77,7 +77,7 @@ public class LeaderboardData extends AbstractTableModel {
         }
     }
 
-    private String makeFilename(Settings settings) throws NotRankableSetting {
+    public String makeFilename(Settings settings) throws NotRankableSetting {
         String filename;
         filename="leaderboards" + System.getProperty("file.separator");
         if(!settings.isRankable()){

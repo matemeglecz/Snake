@@ -3,6 +3,7 @@ package leaderboard;
 import java.io.Serializable;
 
 public class LeaderBoardItem implements Serializable {
+    private static final long serialVersionUID = 6529685098267757690L;
     private String name;
     private int points;
 

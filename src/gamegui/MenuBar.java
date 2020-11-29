@@ -1,12 +1,13 @@
 package gamegui;
 
-import game.Snake;
-
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 
+/**
+ * JMenuBar leszármazottja, MenuBar a framen, amin 3 gomb van(New Game, Leaderboard, Settings),
+ * menüpontra való kattintásra megváltoztatja a frameben a view értékét, ami által megváltozik a megjelenített panel
+ */
 public class MenuBar extends JMenuBar {
 
     public MenuBar(SnakeFrame snakeFrame){

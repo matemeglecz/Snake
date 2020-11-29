@@ -5,13 +5,32 @@ import game.Settings;
 import javax.swing.*;
 
 
+/**
+ * A játékhoz létrejövő ablak, itt történik a nézetek közötti váltás
+ */
 public class SnakeFrame extends JFrame {
+    /**
+     * a játék, ami megjelenik
+     */
     static Game game;
+    /**
+     * beállítások, ami alapján új játék létrejön
+     */
     static Settings settings;
+    /**
+     * a középső panel a frame-n
+     */
     private JPanel mainPanel;
+    /**
+     * az állapot, ez alapján váltódnak a nézetek
+     */
     private View view=View.GAME;
 
 
+    /**
+     * létrehozza a frame-t, alaphelyzetben egy játék jelenik meg default Settings-el
+     * megváltoztatja a frame icon-át, nevét és hozzáad egy menubar-t
+     */
     public SnakeFrame() {
         super("Snake");
         ImageIcon icon = new ImageIcon("images" + System.getProperty("file.separator") + "snakeicon.png");
@@ -31,6 +50,9 @@ public class SnakeFrame extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * frissíti a játék nézetét, egy állapotgép(kicseréli a panelt)
+     */
     public void refreshView(){
         if(view==View.NEW_GAME){
             remove(mainPanel);
@@ -58,6 +80,11 @@ public class SnakeFrame extends JFrame {
 
     }
 
+    /**
+     * átállítja a frame nézetét
+     *
+     * @param v új nézet
+     */
     public void setView(View v){
         if(view!=v){
             view=v;

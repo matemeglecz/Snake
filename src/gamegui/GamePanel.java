@@ -7,23 +7,52 @@ import game.*;
 
 import static java.awt.event.KeyEvent.VK_ENTER;
 
+/**
+ * JPanel leszármazottja, a panel, amin a játék történik
+ */
 public class GamePanel extends JPanel{
 
+    /**
+     * a SnakeFrame, amin a panel megjelenik
+     */
     private final SnakeFrame snakeFrame;
-    private final Game game;
+    /**
+     * timer, ami alapján a képfrissítés és a kígyók mozgatása történik
+     */
     private final Timer gameTimer;
+    /**
+     * a borderlayout északi panelje, játékkal kapcsolatos információkat jelenít meg
+     */
     private final Header header;
+    /**
+     * a borderlayout center panelje, a pálya itt jelenik meg
+     */
     private final JPanel mainPanel;
+    /**
+     * a borderlayout west panelje, singleplayer módban nincs rá szükség,
+     * többjátékos módokban a játékosok pontjai jelennek meg itt
+     */
     private SidePanel leftPanel=null;
+    /**
+     * a borderlayout east panelje, singleplayer módban nincs rá szükség,
+     * többjátékos módokban a játékosok pontjai jelennek meg itt
+     */
     private SidePanel rightPanel=null;
+    /**
+     * a játék végén, ha a játék rangsorolható ide kéri be a program a játékos által menteni kívánt nevet
+     */
     private JTextField nameTextfield;
 
 
+    /**
+     * ferakja a megfelelő paneleket és létrehozza a timereket és a listenereket
+     *
+     * @param sf SnakeFrame, amin a panel megjelenik
+     */
     public GamePanel(SnakeFrame sf){
 
         snakeFrame=sf;
         setLayout(new BorderLayout());
-        game=SnakeFrame.game;
 
         mainPanel= new GameBoardPanel();
         JPanel mainPConstrain = new JPanel(new GridBagLayout()); //hogy resizolható legyen
@@ -36,17 +65,15 @@ public class GamePanel extends JPanel{
             header = new SingleplayerHeader();
         } else {
             header= new MultiplayerHeader();
-            leftPanel= new SidePanel(game.getPlayers().get(0));
-            rightPanel= new SidePanel(game.getPlayers().get(1));
+            leftPanel= new SidePanel(SnakeFrame.game.getPlayers().get(0));
+            rightPanel= new SidePanel(SnakeFrame.game.getPlayers().get(1));
             this.add(leftPanel, BorderLayout.WEST);
             this.add(rightPanel, BorderLayout.EAST);
         }
 
         this.add(header, BorderLayout.NORTH);
 
-
-
-        gameTimer = new Timer(game.getRefreshRate(), new GameTimerListener());
+        gameTimer = new Timer(SnakeFrame.game.getRefreshRate(), new GameTimerListener());
         KeyListener listener = new MoveKeyListener();
         addKeyListener(listener);
         setFocusable(true);
@@ -59,20 +86,26 @@ public class GamePanel extends JPanel{
 
     }
 
+    /**
+     * a panel, amin a pálya megejelenik és a játék folyik
+     */
     private class GameBoardPanel extends JPanel {
 
+        /**
+         * megjeleníti a pálya alap állapotát
+         */
         public GameBoardPanel() {
             setLayout(new GridBagLayout());
             setBackground(new Color(43, 43, 43));
             GridBagConstraints gbc = new GridBagConstraints();
-            for (int row = 0; row < game.getMaze().getHeight(); row++) {
-                for (int col = 0; col < game.getMaze().getWidth(); col++) {
+            for (int row = 0; row < SnakeFrame.game.getMaze().getHeight(); row++) {
+                for (int col = 0; col < SnakeFrame.game.getMaze().getWidth(); col++) {
                     gbc.gridx = col;
                     gbc.gridy = row;
                     gbc.weightx=1;
                     gbc.weighty=1;
                     gbc.fill = GridBagConstraints.BOTH;
-                    add(game.getMaze().getFields()[col][row].getPanel(), gbc);
+                    add(SnakeFrame.game.getMaze().getFields()[col][row].getPanel(), gbc);
                 }
             }
         }
@@ -94,31 +127,36 @@ public class GamePanel extends JPanel{
             return new Dimension(s,s);
         }
 
+        @Override
+        public void revalidate(){
+
+        }
+
     }
 
     private class GameTimerListener implements ActionListener{
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            game.playersMove();
-            game.refreshApples();
+            SnakeFrame.game.playersMove();
+            SnakeFrame.game.refreshApples();
             refreshMainPanel();
             if(header.getTime()<=0) {
                 gameTimer.stop();
-                game.gameOver(header.getTime());
+                SnakeFrame.game.gameOver(header.getTime());
             }
 
-            for(Player p: game.getPlayers()) {
+            for(Player p: SnakeFrame.game.getPlayers()) {
                 if (p.isLost()) {
                     gameTimer.stop();
-                    game.gameOver(header.getTime());
+                    SnakeFrame.game.gameOver(header.getTime());
                     }
             }
-            if(game.isGameOver()) {
+            if(SnakeFrame.game.isGameOver()) {
                 JPanel bottomPanel = new JPanel();
                 bottomPanel.setBackground(new Color(43, 43, 43));
                 JButton nextButton = new JButton();
-                if (game.isRankable() && !game.getPlayers().get(0).isLost()) {
+                if (SnakeFrame.game.isRankable() && !SnakeFrame.game.getPlayers().get(0).isLost()) {
                     JLabel nameLabel=new JLabel("Name:");
                     nameLabel.setForeground(Color.white);
                     bottomPanel.add(nameLabel);
@@ -146,7 +184,7 @@ public class GamePanel extends JPanel{
         public void actionPerformed(ActionEvent e) {
             if(e.getActionCommand().equals("Next")){
                 try {
-                    game.saveRank(nameTextfield.getText());
+                    SnakeFrame.game.saveRank(nameTextfield.getText());
                 } catch (NotSavableRank notSavableRank) {
                     notSavableRank.printStackTrace();
                 }
@@ -162,24 +200,23 @@ public class GamePanel extends JPanel{
         }
     }
 
-    private void refreshMainPanel(){
+    /*private void refreshMainPanel(){
         mainPanel.removeAll();
         //Refresh the panel
         GridBagConstraints gbc = new GridBagConstraints();
-        //gbc.insets=new Insets(1,1,1,1);
-        for(int h=0; h<game.getMaze().getHeight(); h++){
-            for(int w=0; w<game.getMaze().getWidth(); w++) {
+        for(int h=0; h<SnakeFrame.game.getMaze().getHeight(); h++){
+            for(int w=0; w<SnakeFrame.game.getMaze().getWidth(); w++) {
                 gbc.gridx=w;
                 gbc.gridy=h;
                 gbc.weightx=1;
                 gbc.weighty=1;
                 gbc.fill = GridBagConstraints.BOTH;
-                mainPanel.add(game.getMaze().getFields()[w][h].getPanel(), gbc);
+                mainPanel.add(SnakeFrame.game.getMaze().getFields()[w][h].getPanel(), gbc);
             }
         }
 
         mainPanel.revalidate();
-    }
+    }*/
 
     private class MoveKeyListener implements KeyListener {
         @Override
@@ -188,7 +225,7 @@ public class GamePanel extends JPanel{
 
         @Override
         public void keyPressed(KeyEvent e) {
-            for(Player p: game.getPlayers()){
+            for(Player p: SnakeFrame.game.getPlayers()){
                 p.keyPressed(e.getKeyCode());
             }
         }
@@ -210,7 +247,7 @@ public class GamePanel extends JPanel{
             if(e.getKeyCode()==VK_ENTER) {
                 gameTimer.start();
                 header.headerTimerStart();
-                if(game.getGameMode()!=GameModes.SINGLEPLAYER) {
+                if(SnakeFrame.game.getGameMode()!=GameModes.SINGLEPLAYER) {
                     rightPanel.sidePanelTimerStart();
                     leftPanel.sidePanelTimerStart();
                 }
@@ -220,16 +257,7 @@ public class GamePanel extends JPanel{
 
         @Override
         public void keyReleased(KeyEvent e) {
-
         }
     }
-
-
-
-
-
-
-
-
 
 }
