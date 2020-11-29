@@ -7,16 +7,34 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Többjátékos módban a panel két oldalán elhelyezkedő panelek
+ */
 public class SidePanel extends JPanel {
-
+    /**
+     * a játékos pontjait megjelenítő label
+     */
     private final JLabel pointsLabel= new JLabel("0");
+    /**
+     * a játékos, akinek az adatait a panel megjeleníti
+     */
     private final Player player;
+    /**
+     * a panelhez tartozó időzítő
+     */
     private final Timer timer;
+    /**
+     * időzítő frissítési gyakorisága
+     */
     private final static int refreshRate= SnakeFrame.game.getRefreshRate();
 
+    /**
+     * létrehozza a panelt és a hozzátartozó timert
+     *
+     * @param p a player akinek az adatai megjelennek
+     */
     SidePanel(Player p){
         player=p;
-
 
         setBackground(new Color(43 ,43 ,43 ));
         setLayout(new GridBagLayout());
@@ -52,11 +70,18 @@ public class SidePanel extends JPanel {
         timer=new Timer(refreshRate, new SidePanelTimer());
     }
 
+    /**
+     * oldalsó panelhez tartozó timer
+     */
     private class SidePanelTimer implements ActionListener {
 
+        /**
+         * frissíti a pontok számát tickenként, és ha vég a játéknak jelzi, hogy a játékos nyert/vesztett
+         *
+         * @param e bekövetkezett event
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
-
             if (SnakeFrame.game.isGameOver()) {
                 timer.stop();
                 if(player.isLost()){
@@ -70,11 +95,10 @@ public class SidePanel extends JPanel {
         }
     }
 
+    /**
+     * elindítja a panel időzítőjét
+     */
     public void sidePanelTimerStart(){
         timer.start();
     }
-
-
-
-
 }

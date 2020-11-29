@@ -2,11 +2,16 @@ package gamegui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.text.SimpleDateFormat;
 
+/**
+ * többjátékos módokhoz tartozó header
+ */
 public class MultiplayerHeader extends Header {
 
+    /**
+     * létrehozza a többjátékos módokhoz tartozó headert
+     */
     public MultiplayerHeader(){
         super();
         setLayout(new GridLayout(2, 1));
@@ -19,7 +24,7 @@ public class MultiplayerHeader extends Header {
         upperPanel.add(timeLabel);
         lowerPanel.add(displayedText);
 
-        headerTimer= new Timer(refreshRate, new MpHeaderTimerListener());
+        headerTimer= new Timer(refreshRate, new HeaderTimerListener());
 
         add(upperPanel);
         add(lowerPanel);
@@ -29,16 +34,6 @@ public class MultiplayerHeader extends Header {
 
         timeLabel.setForeground(Color.WHITE);
         displayedText.setForeground(Color.WHITE);
-
-
-    }
-
-    private class MpHeaderTimerListener extends HeaderTimerListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            super.actionPerformed(e);
-        }
     }
 
 }

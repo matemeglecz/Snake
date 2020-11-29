@@ -11,47 +11,131 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 
+/**
+ * a settingsek beállításához megjelenő panel
+ */
 public class SettingsPanel extends JPanel {
     //modes
+    /**
+     * Singleplayer módhoz tartozó radiobutton
+     */
     private final JRadioButton singleMode;
+    /**
+     * Player-player módhoz tartozó radiobutton
+     */
     private final JRadioButton playerMode;
+    /**
+     * robot-player módhoz tartozó radiobutton
+     */
     private final JRadioButton robotMode;
 
     //size
+    /**
+     * custom pályamérethez tartozó textfield
+     */
     private final JNumberTextField mazeSizetf;
+    /**
+     * default mérethez tartozó radiobutton
+     */
     private final JRadioButton defaultSize;
+    /**
+     * custom mérethez tartozó radiobutton
+     */
     private final JRadioButton customSize;
 
     //timelimit
+    /**
+     * default időlimithez tartozó radiobutton
+     */
     private final JRadioButton defaultTime;
+    /**
+     * custom időlimithez tartozó radiobutton
+     */
     private final JRadioButton customTime;
+    /**
+     * custom időlimithez tartozó textfield
+     */
     private final JNumberTextField timeLimittf;
 
     //speed
+    /**
+     * lassú kígyósebbeséghez tartozó radiobutton
+     */
     private final JRadioButton slowSpeed;
+    /**
+     * normál kígyósebbeséghez tartozó radiobutton
+     */
     private final JRadioButton normalSpeed;
+    /**
+     * gyors kígyósebbeséghez tartozó radiobutton
+     */
     private final JRadioButton fastSpeed;
+    /**
+     * custom kígyó sebbeséghez tartozó radiobutton
+     */
     private final JRadioButton customSpeed;
+    /**
+     * custom kígyó sebbeséghez tartozó textfield
+     */
     private final JNumberTextField speedtf;
 
     //apples
+    /**
+     * kevés almához tartozó radiobutton
+     */
     private final JRadioButton fewApple;
+    /**
+     * normál mennyiségű almához tartozó radiobutton
+     */
     private final JRadioButton normalApple;
+    /**
+     * sok almához tartozó radiobutton
+     */
     private final JRadioButton plentyApple;
+    /**
+     * custom mennyiségű almához tartozó radiobutton
+     */
     private final JRadioButton customApple;
+    /**
+     * custom mennyiségű almához tartozó textfield
+     */
     private final JNumberTextField appletf;
 
     //bombs
+    /**
+     * kevés bombához tartozó radiobutton
+     */
     private final JRadioButton fewBomb;
+    /**
+     * normál mennyiségű bombához tartozó radiobutton
+     */
     private final JRadioButton normalBomb;
+    /**
+     * sok bombához tartozó radiobutton
+     */
     private final JRadioButton plentyBomb;
+    /**
+     * custom mennyiségű bombához tartozó radiobutton
+     */
     private final JRadioButton customBomb;
+    /**
+     * custom mennyiségű bombához tartozó textfield
+     */
     private final JNumberTextField bombtf;
 
     //save
+    /**
+     * mentéshez tartozó gomb
+     */
     private final JButton saveButton;
+    /**
+     * mentés gomb hatására üzenetet megjelnítő label
+     */
     private final JLabel warninglabel=new JLabel("");
 
+    /**
+     * felhelyezi az elemeket a panelre, hozzájuk adja a listenert
+     */
     public SettingsPanel(){
         setLayout(new GridLayout(7, 1));
 
@@ -219,6 +303,10 @@ public class SettingsPanel extends JPanel {
 
     }
 
+    /**
+     * a gombok kattintását figyelő Listener, változtatja a gombok állapotát,
+     * Save gomb hatására elmenti a beállítást ha az elmenthető
+     */
     private class SettingsListener implements ActionListener{
 
         @Override
@@ -296,7 +384,7 @@ public class SettingsPanel extends JPanel {
                 } else if(plentyApple.isSelected()){
                     newApplenum=Settings.getDefaultPlentyapple();
                 } else if(customApple.isSelected()){
-                    newApplenum=appletf.getNumber();System.out.println(newApplenum);
+                    newApplenum=appletf.getNumber();
                 }
                 if(fewBomb.isSelected()){
                     newBombnum=Settings.getDefaultFewbomb();
@@ -324,25 +412,44 @@ public class SettingsPanel extends JPanel {
 
     }
 
+    /**
+     * JTextField leszármazottja, csak számjegyek írhatók belé
+     */
     private static class JNumberTextField extends JTextField {
+        /**
+         * a textfield mérete, belegépelhető számjegyek száma
+         */
         private final int columns;
 
+        /**
+         * létrehozza a komponenst
+         *
+         * @param limit belegépelhető számjegyek száma
+         */
         public JNumberTextField(int limit){
             super();
             columns=limit;
             setColumns(columns);
         }
 
+        /**
+         * csak akkor regisztrálja a billentyű ütést, ha az szám vagy törlés és a számjegyek száma a limit alatt van
+         *
+         * @param ev bekövetkezett event
+         */
         @Override
         public void processKeyEvent(KeyEvent ev) {
             char c = ev.getKeyChar();
 
-            if ((Character.isDigit(c)&& this.getText().length()<columns) || c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE) { //|| (this.getText().length()  4)
+            if ((Character.isDigit(c)&& this.getText().length()<columns) || c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE) {
                 super.processKeyEvent(ev);
             }
             ev.consume();
         }
 
+        /**
+         * @return visszatér a textfield-be beírt számok Integer alakjával
+         */
         public int getNumber() {
             int result = 0;
             String text = getText();

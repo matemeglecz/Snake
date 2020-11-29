@@ -1,15 +1,22 @@
 package gamegui;
 
-import game.Snake;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.text.SimpleDateFormat;
 
+/**
+ * egyjátékos módhoz tartozó header
+ */
 public class SingleplayerHeader extends Header {
+    /**
+     * a játékos pontjait megjelenítő label
+     */
     private final JLabel pointsLabel= new JLabel("0");
 
+    /**
+     * létrehozza az egyjátékos módhoz tartozó headert
+     */
     public SingleplayerHeader(){
         super();
         setLayout(new GridLayout(1, 3));
@@ -46,6 +53,10 @@ public class SingleplayerHeader extends Header {
 
     }
 
+    /**
+     * egyjátékos módhoz tartozó headerben elhelyezkedő listener
+     * HeadTimerListener-t bővíti a játékos pontjainak megjelenítésével
+     */
     private class SpHeaderTimerListener extends HeaderTimerListener{
         @Override
         public void actionPerformed(ActionEvent e) {

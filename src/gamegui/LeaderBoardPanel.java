@@ -3,7 +3,6 @@ package gamegui;
 import game.GameModes;
 import game.InvalidSettingsException;
 import game.Settings;
-import leaderboard.LeaderBoardItem;
 import leaderboard.LeaderboardData;
 
 import javax.swing.*;
@@ -11,36 +10,86 @@ import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.util.ArrayList;
 
+/**
+ * a leaderboardok megtekintéséhez szükséges panel
+ */
 public class LeaderBoardPanel extends JPanel {
+    /**
+     * a középső panel, amin a táblázat van vagy a No data feliratú label
+     */
     private final JPanel centerPanel = new JPanel();
+    /**
+     * az ranglista beállításainak kiválasztásához tartozó panel
+     */
     private final JPanel bottomPanel= new JPanel();
+    /**
+     * a panel, amin a táblázat van
+     */
     private final JPanel tablePanel= new JPanel();
+    /**
+     * a panel, amin a No data feliratú label van
+     */
     private final JPanel noFilePanel= new JPanel();
+    /**
+     * a táblázatban megjelenő adatok
+     */
     private final LeaderboardData data;
 
     //speed
+    /**
+     * lassú kígyósebbeséghez tartozó radiobutton
+     */
     private JRadioButton slowSpeed;
+    /**
+     * normál kígyósebbeséghez tartozó radiobutton
+     */
     private JRadioButton normalSpeed;
+    /**
+     * gyors kígyósebbeséghez tartozó radiobutton
+     */
     private JRadioButton fastSpeed;
 
     //apples
+    /**
+     * kevés almához tartozó radiobutton
+     */
     private JRadioButton fewApple;
+    /**
+     * normál mennyiségű almához tartozó radiobutton
+     */
     private JRadioButton normalApple;
+    /**
+     * sok almához tartozó radiobutton
+     */
     private JRadioButton plentyApple;
 
     //bombs
+    /**
+     * kevés bombához tartozó radiobutton
+     */
     private JRadioButton fewBomb;
+    /**
+     * normál mennyiségű bombához tartozó radiobutton
+     */
     private JRadioButton normalBomb;
+    /**
+     * sok bombához tartozó radiobutton
+     */
     private JRadioButton plentyBomb;
 
+    /**
+     * mentéshez tartozó gomb
+     */
     private JButton saveButton;
 
+    /**
+     * felrakja a panelre a középső panelt és az alsó panelt,
+     * a kezdetben megjelenő eredmények az előző játék beállításához tartozó eredmények,
+     * amennyiben a játék rangsorolható volt
+     * ha nem volt rangsorolható akkor minden beállítás normál értéken áll
+     */
     public LeaderBoardPanel(){
         setLayout(new BorderLayout());
 
@@ -62,6 +111,10 @@ public class LeaderBoardPanel extends JPanel {
 
     }
 
+    /**
+     * létrehozza a táblázathoz tartozó panelt,
+     * inicializálja a táblázatot az adatokkal
+     */
     private void tablePanelInit(){
         JTable table = new JTable();
         table.setFillsViewportHeight(true);
@@ -75,6 +128,9 @@ public class LeaderBoardPanel extends JPanel {
         }
     }
 
+    /**
+     * felrakja az alsó panelre a beállításokhoz szükséges gombokat
+     */
     private void bottomPanelInit(){
         bottomPanel.setLayout(new GridLayout(4,1));
         SettingsListener settingsListener=new SettingsListener();
@@ -139,8 +195,16 @@ public class LeaderBoardPanel extends JPanel {
         bottomPanel.add(saveButton);
     }
 
+    /**
+     * a beállítások gombjait figyelő Listener
+     */
     private class SettingsListener implements ActionListener {
 
+        /**
+         * Save gomb megnyomásának hatására megjelníti az új beállításokhoz tartozó eredményeket
+         *
+         * @param e bekövetkezett event
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             //save button
