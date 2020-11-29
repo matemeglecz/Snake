@@ -13,7 +13,10 @@ import java.io.FileNotFoundException;
 public class LeaderBoardDataTest {
 
 
-
+    /**
+     * @throws InvalidSettingsException
+     * @throws NotRankableSetting
+     */
     @Test (expected = NotRankableSetting.class)
     public void testmakeFilenameNotRankable() throws InvalidSettingsException, NotRankableSetting {
         Settings settings=new Settings(GameModes.playerMULTIPLAYER, 30, 5, 5, 120000, 500);

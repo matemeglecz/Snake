@@ -8,19 +8,36 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * egy beállításhoz tartozó ranglistát tárol, AbstractTable model leszármazottja, táblázatot valósítja meg
+ */
 public class LeaderboardData extends AbstractTableModel {
-    List<LeaderBoardItem> leaderBoard= new ArrayList<>();
+    /**
+     * az eredményeket tároló lista
+     */
+    private List<LeaderBoardItem> leaderBoard= new ArrayList<>();
 
+    /**
+     * @return visszaadja, hogy hány sorból áll a táblázat
+     */
     @Override
     public int getRowCount() {
         return leaderBoard.size();
     }
 
+    /**
+     * @return visszatér a táblázat oszlopainak a számával
+     */
     @Override
     public int getColumnCount() {
         return 3;
     }
 
+    /**
+     * @param rowIndex hányadik sorból szeretnénk az értéket
+     * @param columnIndex hányadik oszlopból szeretnénk az értéket
+     * @return az adott cella értéke a táblázatban
+     */
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         LeaderBoardItem item = leaderBoard.get(rowIndex);
@@ -31,6 +48,10 @@ public class LeaderboardData extends AbstractTableModel {
         };
     }
 
+    /**
+     * @param column az oszlop, aminek a nevét kérjük le
+     * @return az adott oszlop neve
+     */
     @Override
     public String getColumnName(int column) {
         return switch (column) {
@@ -40,6 +61,12 @@ public class LeaderboardData extends AbstractTableModel {
         };
     }
 
+    /**
+     * beolvassa a kapott beállításokhoz a ranglistát, majd pontok szerint növekvő sorrendbe rendezi
+     *
+     * @param settings a beállítás, amelyikhez a táblázatot létre akarjuk hozni
+     * @throws FileNotFoundException akkor dobódik, ha nem létezik a fájl, amiből be szeretnénk olvasni
+     */
     @SuppressWarnings("unchecked")
     public void leaderBoardInit(Settings settings) throws FileNotFoundException {
         String filename;
@@ -49,7 +76,6 @@ public class LeaderboardData extends AbstractTableModel {
         } catch (NotRankableSetting notRankableSetting) {
             return;
         }
-
 
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename));
@@ -64,6 +90,13 @@ public class LeaderboardData extends AbstractTableModel {
         Collections.reverse(leaderBoard);
     }
 
+    /**
+     * hozzáad egy új eredményt a ranglistához, majd pontok szerint növekvő sorrendbe rendezi
+     *
+     * @param name a menteni kívánt név
+     * @param points a menteni kívánt pont
+     * @param settings a beállítás, amihez az eredményt menteni szeretnénk
+     */
     public void addRank(String name, int points, Settings settings){
         leaderBoard.add(new LeaderBoardItem(name, points));
         leaderBoard.sort(new RankComperator());
@@ -77,6 +110,13 @@ public class LeaderboardData extends AbstractTableModel {
         }
     }
 
+    /**
+     * legenerálja a kapott beállításhoz tartozó file nevét
+     *
+     * @param settings a beállítás, amihez a file nevét szeretnénk generálni
+     * @return a keresett file neve
+     * @throws NotRankableSetting ha a kapott beállításhoz nem tartozik ranglista
+     */
     public String makeFilename(Settings settings) throws NotRankableSetting {
         String filename;
         filename="leaderboards" + System.getProperty("file.separator");
