@@ -23,7 +23,7 @@ public class SingleplayerHeader extends Header {
 
 
         JLabel apple= new JLabel();
-        ImageIcon imageIcon = new ImageIcon(new ImageIcon("images"+ System.getProperty("file.separator") +"apple3.png").getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT));
+        ImageIcon imageIcon = new ImageIcon(new ImageIcon("images"+ System.getProperty("file.separator") +"apple.png").getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT));
         apple.setIcon(imageIcon);
 
         JPanel leftPanel= new JPanel();
