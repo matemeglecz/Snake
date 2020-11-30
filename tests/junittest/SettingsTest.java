@@ -40,7 +40,7 @@ public class SettingsTest {
      */
     @Test (expected = InvalidSettingsException.class)
     public void testInvalidSettingsTooManyApples() throws InvalidSettingsException {
-        Settings settings=new Settings(GameModes.SINGLEPLAYER, 30, 30*30, 5, 120000, 500);
+        new Settings(GameModes.SINGLEPLAYER, 30, 30*30, 5, 120000, 500);
     }
 
     /**
@@ -50,7 +50,7 @@ public class SettingsTest {
      */
     @Test (expected = InvalidSettingsException.class)
     public void testInvalidSettingsTooSmallSize() throws InvalidSettingsException {
-        Settings settings=new Settings(GameModes.playerMULTIPLAYER, 1, 0, 0, 120000, 500);
+        new Settings(GameModes.playerMULTIPLAYER, 1, 0, 0, 120000, 500);
     }
 
 }
