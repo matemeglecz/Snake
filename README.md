@@ -2,6 +2,12 @@
 
 ## Multiplayer Snake specifikáció
 
+<p float="center">
+  <img src="https://user-images.githubusercontent.com/58141904/160290747-53bc65c4-5b95-48b3-8c70-6443d9a541b2.png" width="250" >
+  <img src="https://user-images.githubusercontent.com/58141904/160290753-4dd0741c-552f-4c64-a9d8-8d193bc34384.png" width="250" >
+  <img src="https://user-images.githubusercontent.com/58141904/160290757-dcbcc945-93f6-4d97-af24-8437f16cc731.png" width="220" >
+  <img src="https://user-images.githubusercontent.com/58141904/160290763-41bc38c1-fd94-4b33-9fd3-23eab1417b5f.png" width="250" >
+</p>
 
 A klasszikus „Snake” játék továbbfejlesztett változata. A játékban egy táblán egy kígyót irányítunk, a kígyó négy irányba tud menni (fel, le bal, jobb). Egyjátékos módban a célunk, hogy a pályán véletlenszerűen megjelenő almákat begyűjtsük, amik által a kígyó hossza egyel nő. Egy elfogyasztott alma helyett egy véletlenszerű helyen egy új alma jelenik meg. Ha a kígyó feje hozzáér a teste maradék részéhez vagy nekimegy a pálya falának, akkor a játékos vesztett. A tábla mezőin lehetnek még bombák is, amikhez ha a kígyó hozzáér szintén vége a játéknak. A bombák véletlenszerűen helyezkednek el a pályán, a helyük fix.
 
